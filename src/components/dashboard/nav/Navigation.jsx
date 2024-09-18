@@ -1,6 +1,5 @@
 import React from "react";
 import { Cog6ToothIcon } from "@heroicons/react/24/outline";
-
 function classNames(...classes) {
   return classes.filter(Boolean).join(" ");
 }

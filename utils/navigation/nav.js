@@ -15,9 +15,19 @@ export const teams = [
 ];
 
 export const navigation = [
-  { name: "Dashboard", href: "#", icon: HomeIcon, current: true },
-  { name: "Clients", href: "#", icon: UsersIcon, current: false },
-  { name: "Finance", href: "#", icon: CurrencyDollarIcon, current: false },
+  { name: "Dashboard", href: "/", icon: HomeIcon, current: true },
+  {
+    name: "Clients",
+    href: "/dashboard/client",
+    icon: UsersIcon,
+    current: false,
+  },
+  {
+    name: "Finance",
+    href: "/dashboard/finance",
+    icon: CurrencyDollarIcon,
+    current: false,
+  },
   { name: "Calendar", href: "#", icon: CalendarIcon, current: false },
   { name: "Documents", href: "#", icon: DocumentDuplicateIcon, current: false },
   { name: "Reports", href: "#", icon: ChartPieIcon, current: false },
