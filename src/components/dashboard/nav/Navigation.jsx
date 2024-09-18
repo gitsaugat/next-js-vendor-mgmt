@@ -1,5 +1,8 @@
 import React from "react";
 import { Cog6ToothIcon } from "@heroicons/react/24/outline";
+import Link from "next/link";
+import Navitem from "./Navitem";
+
 function classNames(...classes) {
   return classes.filter(Boolean).join(" ");
 }
@@ -20,28 +23,7 @@ export const NavigationFirst = ({ navigation, teams }) => {
           <li>
             <ul role="list" className="-mx-2 space-y-1">
               {navigation.map((item) => (
-                <li key={item.name}>
-                  <a
-                    href={item.href}
-                    className={classNames(
-                      item.current
-                        ? "bg-gray-50 text-indigo-600"
-                        : "text-gray-700 hover:bg-gray-50 hover:text-indigo-600",
-                      "group flex gap-x-3 rounded-md p-2 text-sm font-semibold leading-6"
-                    )}
-                  >
-                    <item.icon
-                      aria-hidden="true"
-                      className={classNames(
-                        item.current
-                          ? "text-indigo-600"
-                          : "text-gray-400 group-hover:text-indigo-600",
-                        "h-6 w-6 shrink-0"
-                      )}
-                    />
-                    {item.name}
-                  </a>
-                </li>
+                <Navitem key={item.id} item={item} />
               ))}
             </ul>
           </li>
@@ -52,7 +34,7 @@ export const NavigationFirst = ({ navigation, teams }) => {
             <ul role="list" className="-mx-2 mt-2 space-y-1">
               {teams.map((team) => (
                 <li key={team.name}>
-                  <a
+                  <Link
                     href={team.href}
                     className={classNames(
                       team.current
@@ -72,13 +54,13 @@ export const NavigationFirst = ({ navigation, teams }) => {
                       {team.initial}
                     </span>
                     <span className="truncate">{team.name}</span>
-                  </a>
+                  </Link>
                 </li>
               ))}
             </ul>
           </li>
           <li className="mt-auto">
-            <a
+            <Link
               href="#"
               className="group -mx-2 flex gap-x-3 rounded-md p-2 text-sm font-semibold leading-6 text-gray-700 hover:bg-gray-50 hover:text-indigo-600"
             >
@@ -87,7 +69,7 @@ export const NavigationFirst = ({ navigation, teams }) => {
                 className="h-6 w-6 shrink-0 text-gray-400 group-hover:text-indigo-600"
               />
               Settings
-            </a>
+            </Link>
           </li>
         </ul>
       </nav>
@@ -112,28 +94,7 @@ export const NavigationSecond = ({ navigation, teams }) => {
             <li>
               <ul role="list" className="-mx-2 space-y-1">
                 {navigation.map((item) => (
-                  <li key={item.name}>
-                    <a
-                      href={item.href}
-                      className={classNames(
-                        item.current
-                          ? "bg-gray-50 text-indigo-600"
-                          : "text-gray-700 hover:bg-gray-50 hover:text-indigo-600",
-                        "group flex gap-x-3 rounded-md p-2 text-sm font-semibold leading-6"
-                      )}
-                    >
-                      <item.icon
-                        aria-hidden="true"
-                        className={classNames(
-                          item.current
-                            ? "text-indigo-600"
-                            : "text-gray-400 group-hover:text-indigo-600",
-                          "h-6 w-6 shrink-0"
-                        )}
-                      />
-                      {item.name}
-                    </a>
-                  </li>
+                  <Navitem key={item.id} item={item} />
                 ))}
               </ul>
             </li>
@@ -144,7 +105,7 @@ export const NavigationSecond = ({ navigation, teams }) => {
               <ul role="list" className="-mx-2 mt-2 space-y-1">
                 {teams.map((team) => (
                   <li key={team.name}>
-                    <a
+                    <Link
                       href={team.href}
                       className={classNames(
                         team.current
@@ -164,13 +125,13 @@ export const NavigationSecond = ({ navigation, teams }) => {
                         {team.initial}
                       </span>
                       <span className="truncate">{team.name}</span>
-                    </a>
+                    </Link>
                   </li>
                 ))}
               </ul>
             </li>
             <li className="mt-auto">
-              <a
+              <Link
                 href="#"
                 className="group -mx-2 flex gap-x-3 rounded-md p-2 text-sm font-semibold leading-6 text-gray-700 hover:bg-gray-50 hover:text-indigo-600"
               >
@@ -179,7 +140,7 @@ export const NavigationSecond = ({ navigation, teams }) => {
                   className="h-6 w-6 shrink-0 text-gray-400 group-hover:text-indigo-600"
                 />
                 Settings
-              </a>
+              </Link>
             </li>
           </ul>
         </nav>
