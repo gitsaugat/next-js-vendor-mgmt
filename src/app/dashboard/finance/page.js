@@ -1,12 +1,12 @@
 "use client";
 import Dashboard from "@/components/dashboard/Dashboard";
 import React from "react";
-import CountUp from "react-countup";
 import { AiFillDollarCircle } from "react-icons/ai";
 import { AiFillBank } from "react-icons/ai";
 import { BsFillPeopleFill } from "react-icons/bs";
 import { BiMoney } from "react-icons/bi";
 import { BiNote } from "react-icons/bi";
+import CountCard from "@/components/dashboard/CountCard";
 
 const data = [
   {
@@ -58,21 +58,12 @@ const page = () => {
     <Dashboard>
       <div className="grid grid-cols-4 gap-4">
         {data.map((d) => (
-          <div
-            key={Math.random()}
-            class="flex items-center justify-between bg-white shadow-lg rounded-lg p-4 max-w-sm"
-          >
-            <div class={`bg-${d.color}-500 text-white p-3 rounded-full `}>
-              {<d.icon />}
-            </div>
-
-            <div class="text-right">
-              <h2 class="text-xl font-bold text-gray-700">
-                <CountUp end={d.count} />
-              </h2>
-              <p class="text-gray-500">{d.name}</p>
-            </div>
-          </div>
+          <CountCard
+            title={d.name}
+            value={d.count}
+            Icon={d.icon}
+            color={d.color}
+          />
         ))}
       </div>
       <div class="rounded overflow-hidden shadow-lg bg-white mt-4">
