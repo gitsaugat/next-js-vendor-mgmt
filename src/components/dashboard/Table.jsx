@@ -1,6 +1,15 @@
+"use client";
 import { useEffect, useState } from "react";
-
-export default function SortedTable({ title, headers, data, keys }) {
+import { useRouter } from "next/navigation";
+export default function SortedTable({
+  title,
+  headers,
+  data,
+  keys,
+  detailKey,
+  detailUrl,
+}) {
+  const router = useRouter();
   const [tableData, setTableData] = useState();
 
   function updateTableData(data) {
@@ -52,7 +61,13 @@ export default function SortedTable({ title, headers, data, keys }) {
                   <tbody className="bg-white">
                     {tableData &&
                       tableData.map((h) => (
-                        <tr key={Math.random()} className="even:bg-gray-50">
+                        <tr
+                          onClick={() => {
+                            router.push(`${detailUrl}/${h[detailKey]}`);
+                          }}
+                          key={Math.random()}
+                          className="even:bg-gray-50"
+                        >
                           {h?.map((k) => (
                             <td className="whitespace-nowrap px-3 py-4 text-sm text-gray-500">
                               {k}
