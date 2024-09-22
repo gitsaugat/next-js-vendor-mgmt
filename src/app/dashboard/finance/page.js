@@ -1,20 +1,53 @@
 "use client";
 import Dashboard from "@/components/dashboard/Dashboard";
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { AiFillDollarCircle } from "react-icons/ai";
 import { AiFillBank } from "react-icons/ai";
 import { BsFillPeopleFill } from "react-icons/bs";
 import { BiMoney } from "react-icons/bi";
 import { BiNote } from "react-icons/bi";
 import CountCard from "@/components/dashboard/CountCard";
+import BarChart from "@/components/dashboard/Charts/BarChart";
+import SortableTable from "@/components/dashboard/Table";
+import { makeRequest } from "../../../../utils/requestMaker/req";
+import PieChart from "@/components/dashboard/Charts/PieChart";
+
+const chartData = {
+  options: {
+    chart: {
+      id: "basic-bar",
+    },
+    xaxis: {
+      categories: [
+        "0-10 Days",
+        "11-20 Days",
+        "21-30 Days",
+        "31-60 Days",
+        "60+ Days",
+      ],
+    },
+  },
+  series: [
+    {
+      name: "series-1",
+      data: [12000, 10000, 6000, 4000, 4500],
+    },
+  ],
+};
+
+const donutChartData = {
+  options: {
+    chart: {
+      type: "donut",
+    },
+  },
+  chartOptions: {
+    labels: ["0-10 Days", "11-20 Days", "21-30 Days", "31-60 Days", "60+ Days"],
+  },
+  series: [12000, 10000, 6000, 4000, 4500],
+};
 
 const data = [
-  {
-    name: "Total Clients",
-    count: 100,
-    icon: BsFillPeopleFill,
-    color: "blue",
-  },
   {
     name: "Overdue Invoices",
     count: 1500,
@@ -53,10 +86,65 @@ const data = [
   },
 ];
 
-const page = () => {
+const headers = [
+  "Account Code",
+  "Account Name",
+  "Amount",
+  "Date",
+  "Entry Number",
+];
+const tableData = [];
+
+const Page = () => {
+  const [unbookedTransactions, setUnbookedTransactions] = useState();
+  const [clientList, setClientList] = useState();
+  const [paymentTracking, setPaymentTracking] = useState();
+  const fetchUnbookedTransactions = async () => {
+    try {
+      const res = await makeRequest(
+        "http://127.0.0.1:5000/api/unbooked-transactions",
+        "GET",
+        {}
+      );
+      setUnbookedTransactions(res); // Assuming res.data contains the array of transactions
+    } catch (error) {
+      console.error("Error fetching unbooked transactions:", error);
+    }
+  };
+
+  const fetchClientTable = async () => {
+    try {
+      const res = await makeRequest(
+        "http://127.0.0.1:5000/api/client-table",
+        "GET",
+        {}
+      );
+      setClientList(res); // Assuming res.data contains the array of transactions
+    } catch (error) {
+      console.error("Error fetching client table:", error);
+    }
+  };
+  const fetchPaymentTracking = async () => {
+    try {
+      const res = await makeRequest(
+        "http://127.0.0.1:5000/api/payment-tracking",
+        "GET",
+        {}
+      );
+      setPaymentTracking(res); // Assuming res.data contains the array of transactions
+    } catch (error) {
+      console.error("Error fetching payment tracking:", error);
+    }
+  };
+  useEffect(() => {
+    fetchUnbookedTransactions();
+    fetchPaymentTracking();
+    fetchClientTable();
+  }, []);
+
   return (
     <Dashboard>
-      <div className="grid grid-cols-4 gap-4">
+      <div className="lg:grid lg:grid-cols-4 lg:gap-4 sm:grid sm:grid-rows-1 sm:gap-4 xs:gap-3 ">
         {data.map((d) => (
           <CountCard
             title={d.name}
@@ -66,167 +154,103 @@ const page = () => {
           />
         ))}
       </div>
-      <div class="rounded overflow-hidden shadow-lg bg-white mt-4">
-        <div class="bg-blue-500 text-white font-bold text-lg px-6 py-4">
-          Overdue Invoices Buckets
-        </div>
-        <div className="rounded overflow-scroll bg-white shadow-lg">
-          <div class="overflow-x-auto">
-            <table class="min-w-full bg-white border border-gray-200">
-              <thead>
-                <tr>
-                  <th class="py-3 px-4 text-left bg-gray-100 font-semibold text-gray-800 border-b">
-                    0-10 Days Invoice
-                  </th>
-                  <th class="py-3 px-4 text-left bg-gray-100 font-semibold text-gray-800 border-b">
-                    11-20 Days Invoice
-                  </th>
-                  <th class="py-3 px-4 text-left bg-gray-100 font-semibold text-gray-800 border-b">
-                    21-30 Days Invoice
-                  </th>
-                  <th class="py-3 px-4 text-left bg-gray-100 font-semibold text-gray-800 border-b">
-                    31-60 Days Invoice
-                  </th>
-                  <th class="py-3 px-4 text-left bg-gray-100 font-semibold text-gray-800 border-b">
-                    60+ Days Invoice
-                  </th>
-                </tr>
-              </thead>
-              <tbody>
-                <tr>
-                  <td class="py-3 px-4 border-b">{"4($12000)"}</td>
-                  <td class="py-3 px-4 border-b">{"2($1000)"}</td>
-                  <td class="py-3 px-4 border-b">{"4($6000)"}</td>
-                  <td class="py-3 px-4 border-b">{"1($4000)"}</td>
-                  <td class="py-3 px-4 border-b">{"4($4500)"}</td>
-                </tr>
-              </tbody>
-            </table>
-          </div>
-        </div>
+
+      <div className="lg:grid lg:grid-cols-2 lg:gap-3 sm:grid sm:grid-rows-1">
+        <BarChart chart_data={chartData} />
+        <PieChart chart_data={donutChartData} />
       </div>
-      <div className="grid grid-cols-2 gap-2 mt-4">
-        <div class=" rounded overflow-hidden shadow-lg bg-white">
-          <div class="bg-red-500 text-white font-bold text-lg px-6 py-4">
-            Overdue Details
-          </div>
-          <div className="rounded overflow-scroll bg-white shadow-lg">
-            <div class="overflow-x-auto">
-              <table class="min-w-full bg-white border border-gray-200">
-                <thead>
-                  <tr>
-                    <th class="py-3 px-4 text-left bg-gray-100 font-semibold text-gray-800 border-b">
-                      Name
-                    </th>
-                    <th class="py-3 px-4 text-left bg-gray-100 font-semibold text-gray-800 border-b">
-                      Code
-                    </th>
-                    <th class="py-3 px-4 text-left bg-gray-100 font-semibold text-gray-800 border-b">
-                      Transactions
-                    </th>
-                    <th class="py-3 px-4 text-left bg-gray-100 font-semibold text-gray-800 border-b">
-                      Amount
-                    </th>
-                  </tr>
-                </thead>
-                <tbody>
-                  <tr>
-                    <td class="py-3 px-4 border-b">{"4($12000)"}</td>
-                    <td class="py-3 px-4 border-b">{"2($1000)"}</td>
-                    <td class="py-3 px-4 border-b">{"4($6000)"}</td>
-                    <td class="py-3 px-4 border-b">{"1($4000)"}</td>
-                  </tr>
-                  <tr>
-                    <td class="py-3 px-4 border-b">{"4($12000)"}</td>
-                    <td class="py-3 px-4 border-b">{"2($1000)"}</td>
-                    <td class="py-3 px-4 border-b">{"4($6000)"}</td>
-                    <td class="py-3 px-4 border-b">{"1($4000)"}</td>
-                  </tr>
-                  <tr>
-                    <td class="py-3 px-4 border-b">{"4($12000)"}</td>
-                    <td class="py-3 px-4 border-b">{"2($1000)"}</td>
-                    <td class="py-3 px-4 border-b">{"4($6000)"}</td>
-                    <td class="py-3 px-4 border-b">{"1($4000)"}</td>
-                  </tr>
-                  <tr>
-                    <td class="py-3 px-4 border-b">{"4($12000)"}</td>
-                    <td class="py-3 px-4 border-b">{"2($1000)"}</td>
-                    <td class="py-3 px-4 border-b">{"4($6000)"}</td>
-                    <td class="py-3 px-4 border-b">{"1($4000)"}</td>
-                  </tr>
-                  <tr>
-                    <td class="py-3 px-4 border-b">{"4($12000)"}</td>
-                    <td class="py-3 px-4 border-b">{"2($1000)"}</td>
-                    <td class="py-3 px-4 border-b">{"4($6000)"}</td>
-                    <td class="py-3 px-4 border-b">{"1($4000)"}</td>
-                  </tr>
-                </tbody>
-              </table>
-            </div>
-          </div>
-        </div>
-        <div class=" rounded overflow-hidden shadow-lg bg-white">
-          <div class="bg-yellow-500 text-white font-bold text-lg px-6 py-4">
-            Unbooked Transactions Details
-          </div>
-          <div className="rounded overflow-scroll bg-white shadow-lg">
-            <div class="overflow-x-auto">
-              <table class="min-w-full bg-white border border-gray-200">
-                <thead>
-                  <tr>
-                    <th class="py-3 px-4 text-left bg-gray-100 font-semibold text-gray-800 border-b">
-                      Name
-                    </th>
-                    <th class="py-3 px-4 text-left bg-gray-100 font-semibold text-gray-800 border-b">
-                      Code
-                    </th>
-                    <th class="py-3 px-4 text-left bg-gray-100 font-semibold text-gray-800 border-b">
-                      Transactions
-                    </th>
-                    <th class="py-3 px-4 text-left bg-gray-100 font-semibold text-gray-800 border-b">
-                      Amount
-                    </th>
-                  </tr>
-                </thead>
-                <tbody>
-                  <tr>
-                    <td class="py-3 px-4 border-b">{"4($12000)"}</td>
-                    <td class="py-3 px-4 border-b">{"2($1000)"}</td>
-                    <td class="py-3 px-4 border-b">{"4($6000)"}</td>
-                    <td class="py-3 px-4 border-b">{"1($4000)"}</td>
-                  </tr>
-                  <tr>
-                    <td class="py-3 px-4 border-b">{"4($12000)"}</td>
-                    <td class="py-3 px-4 border-b">{"2($1000)"}</td>
-                    <td class="py-3 px-4 border-b">{"4($6000)"}</td>
-                    <td class="py-3 px-4 border-b">{"1($4000)"}</td>
-                  </tr>
-                  <tr>
-                    <td class="py-3 px-4 border-b">{"4($12000)"}</td>
-                    <td class="py-3 px-4 border-b">{"2($1000)"}</td>
-                    <td class="py-3 px-4 border-b">{"4($6000)"}</td>
-                    <td class="py-3 px-4 border-b">{"1($4000)"}</td>
-                  </tr>
-                  <tr>
-                    <td class="py-3 px-4 border-b">{"4($12000)"}</td>
-                    <td class="py-3 px-4 border-b">{"2($1000)"}</td>
-                    <td class="py-3 px-4 border-b">{"4($6000)"}</td>
-                    <td class="py-3 px-4 border-b">{"1($4000)"}</td>
-                  </tr>
-                  <tr>
-                    <td class="py-3 px-4 border-b">{"4($12000)"}</td>
-                    <td class="py-3 px-4 border-b">{"2($1000)"}</td>
-                    <td class="py-3 px-4 border-b">{"4($6000)"}</td>
-                    <td class="py-3 px-4 border-b">{"1($4000)"}</td>
-                  </tr>
-                </tbody>
-              </table>
-            </div>
-          </div>
-        </div>
+      <SortableTable
+        headers={[
+          "account_code",
+          "account_name",
+          "total_outstanding",
+          "payment_term",
+          "total_overdue_amount",
+          "latest_transaction_date",
+          "latest_amount",
+        ]}
+        keys={[
+          "account_code",
+          "account_name",
+          "total_outstanding",
+          "payment_term",
+          "total_overdue_amount",
+          "latest_transaction_date",
+          "latest_amount",
+        ]}
+        title={"Client Summary"}
+        data={clientList}
+      />
+      <div className="lg:grid lg:grid-cols-2 lg:gap-1 sm:grid sm:grid-rows-1">
+        <SortableTable
+          headers={headers}
+          keys={[
+            "account_code",
+            "account_name",
+            "amount",
+            "entry_number",
+            "date",
+          ]}
+          title={"Overdue Invoices"}
+          data={unbookedTransactions}
+        />
+        {unbookedTransactions && (
+          <SortableTable
+            headers={headers}
+            keys={[
+              "account_code",
+              "account_name",
+              "amount",
+              "entry_number",
+              "date",
+            ]}
+            title={"Unbooked Transactions"}
+            data={unbookedTransactions}
+          />
+        )}
       </div>
+
+      {paymentTracking && (
+        <div className="lg:grid lg:grid-cols-2 lg:gap-1 sm:grid sm:grid-rows-1">
+          <SortableTable
+            headers={[
+              "Account Code",
+              "Account Name",
+              "Bank Details Amount Dc",
+              "Total Invoice Amount Dc",
+            ]}
+            keys={[
+              "account_code",
+              "account_name",
+              "bank_details_amount_dc",
+              "total_invoice_amount_dc",
+            ]}
+            title={"Payment Tracking (Matched)"}
+            data={paymentTracking?.matched_invoices}
+          />
+
+          <SortableTable
+            headers={[
+              "Account Code",
+              "Account Name",
+              "Bank Details Amount Dc",
+              "Paid Status",
+              "Total Invoice Amount Dc",
+            ]}
+            keys={[
+              "account_code",
+              "account_name",
+              "bank_details_amount_dc",
+              "paid_status",
+              "total_invoice_amount_dc",
+            ]}
+            title={"Payment Tracking (Unmatched)"}
+            data={paymentTracking?.matched_invoices}
+          />
+        </div>
+      )}
     </Dashboard>
   );
 };
 
-export default page;
+export default Page;
