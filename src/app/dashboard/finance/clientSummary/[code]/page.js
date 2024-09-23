@@ -209,6 +209,7 @@ const Page = () => {
     <>
       {financialTransaction && (
         <Dashboard>
+          <p className="text-gray-500 text-xl font-bold m-2">Invoices</p>
           <div className="lg:grid lg:grid-cols-4 lg:gap-4 md:grid md:grid-cols-2 md:gap-4 sm:grid sm:grid-cols-2 sm:gap-4 ">
             <CountCard
               title={"Unique Invoice Count"}
@@ -219,21 +220,7 @@ const Page = () => {
               Icon={BiNote}
               color={"bg-green-400"}
             />
-            <CountCard
-              title={"Latest Amount"}
-              value={financialTransaction.financial_transactions.latest_amount}
-              Icon={BiEuro}
-              color={"bg-green-400"}
-            />
-            <CountCard
-              title={"Total Bank Transactions Value"}
-              value={
-                financialTransaction.financial_transactions
-                  .total_bank_transactions_value
-              }
-              Icon={RiBankFill}
-              color={"bg-green-400"}
-            />
+
             <CountCard
               title={"Total Invoice Value"}
               value={
@@ -270,6 +257,25 @@ const Page = () => {
               Icon={BiMoney}
               color={"bg-red-400"}
             />
+          </div>
+          <p className="text-gray-500 text-xl font-bold m-2">Banking</p>
+          <div className="lg:grid lg:grid-cols-4 lg:gap-4 md:grid md:grid-cols-2 md:gap-4 sm:grid sm:grid-cols-2 sm:gap-4 ">
+            <CountCard
+              title={"Latest Amount"}
+              value={financialTransaction.financial_transactions.latest_amount}
+              Icon={BiEuro}
+              color={"bg-green-400"}
+            />
+            <CountCard
+              title={"Total Bank Transactions Value"}
+              value={
+                financialTransaction.financial_transactions
+                  .total_bank_transactions_value
+              }
+              Icon={RiBankFill}
+              color={"bg-green-400"}
+            />
+
             <CountCard
               title={"Unbooked Count"}
               value={
@@ -289,7 +295,7 @@ const Page = () => {
           </div>
 
           {barChartData && (
-            <>
+            <div className="mt-3">
               <div className="lg:grid lg:grid-cols-2 lg:gap-4 md:grid md:grid-cols-1 md:gap-4 sm:grid sm:grid-cols-1 sm:gap-4">
                 <BarChart
                   title="Overdue Bucket Data"
@@ -321,7 +327,7 @@ const Page = () => {
                   ]}
                 />
               </div>
-            </>
+            </div>
           )}
           <div className="bg-white shadow-lg rounded-lg mt-3">
             <div className="flex justify-between p-4 bg-gray-50">
