@@ -3,7 +3,7 @@ import dynamic from "next/dynamic";
 
 const Chart = dynamic(() => import("react-apexcharts"), { ssr: false });
 
-const BarChart = ({ chart_data, title }) => {
+const AreaChart = ({ chart_data, title }) => {
   const [chart, setChart] = useState();
 
   useEffect(() => {
@@ -21,7 +21,7 @@ const BarChart = ({ chart_data, title }) => {
             <Chart
               options={chart?.options}
               series={chart?.series}
-              type="bar"
+              type="area"
               width="500"
             />
           )}
@@ -31,4 +31,4 @@ const BarChart = ({ chart_data, title }) => {
   );
 };
 
-export default BarChart;
+export default AreaChart;

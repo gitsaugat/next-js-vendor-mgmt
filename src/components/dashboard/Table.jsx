@@ -8,6 +8,7 @@ export default function SortedTable({
   keys,
   detailKey,
   detailUrl,
+  showPagination = false,
 }) {
   const router = useRouter();
   const [tableData, setTableData] = useState();
@@ -35,10 +36,15 @@ export default function SortedTable({
         <div className="bg-white rounded-sm shadow-lg px-4 sm:px-6 lg:px-8 mt-4 ">
           <div className="sm:flex sm:items-center ">
             <div className="sm:flex-auto ">
-              <h1 className=" text-base font-semibold leading-6 text-gray-900 text-center p-4">
+              <h1 className=" text-base font-semibold leading-6 text-gray-900 text-left p-4">
                 {title}
               </h1>
             </div>
+            <input
+              type="text"
+              placeholder="Search"
+              className="border pl-3 pr-3 rounded-sm "
+            />
           </div>
           <div className="mt-2 flow-root">
             <div className="-mx-4 -my-2 overflow-x-auto sm:-mx-6 lg:-mx-8">
@@ -77,6 +83,16 @@ export default function SortedTable({
                       ))}
                   </tbody>
                 </table>
+                {showPagination && (
+                  <div class="float-end py-3">
+                    <a class=" hover:bg-gray-300 text-gray-800 bg-white shadow-lg py-2 px-4 rounded-xs text-xs cursor-pointer ">
+                      Previous
+                    </a>
+                    <a class=" hover:bg-gray-300 text-gray-800 bg-white shadow-lg py-2 px-4 rounded-xs text-xs cursor-pointer">
+                      Next
+                    </a>
+                  </div>
+                )}
               </div>
             </div>
           </div>

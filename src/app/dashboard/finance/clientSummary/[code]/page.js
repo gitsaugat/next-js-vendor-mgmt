@@ -10,6 +10,12 @@ import { RiBankFill } from "react-icons/ri";
 import { TbCashRegister } from "react-icons/tb";
 import BarChart from "@/components/dashboard/Charts/BarChart";
 import PieChart from "@/components/dashboard/Charts/PieChart";
+import SortedTable from "@/components/dashboard/Table";
+import {
+  createBarChartData,
+  createDonutChartData,
+} from "../../../../../../utils/chart";
+import LineChart from "@/components/dashboard/Charts/LineChart";
 
 const Page = () => {
   const [financialTransaction, setFinancialTransaction] = useState();
@@ -17,6 +23,7 @@ const Page = () => {
   const [invoiceDetails, setInvoiceDetails] = useState();
   const [bankTransaction, setBankTransaction] = useState();
   const [barChartData, setBarChartData] = useState();
+  const [growthData, setGrowthData] = useState();
 
   const fetchData = async (url, setState) => {
     try {
@@ -28,102 +35,104 @@ const Page = () => {
   };
 
   useEffect(() => {
-    if (financialTransaction) {
+    if (financialTransaction && bankAndInvoiceDetail) {
+      const overdueBuckets =
+        financialTransaction.outstanding_and_due.overdue_buckets;
+      const bucketDetails = [
+        Math.round(overdueBuckets["0_10_days"]["amount"]),
+        Math.round(overdueBuckets["11_20_days"]["amount"]),
+        Math.round(overdueBuckets["21_30_days"]["amount"]),
+        Math.round(overdueBuckets["31_60_days"]["amount"]),
+        Math.round(overdueBuckets["61_plus_days"]["amount"]),
+      ];
+      const bucketCategories = [
+        "0-10 Days",
+        "11-20 Days",
+        "21-30 Days",
+        "31-60 Days",
+        "60+ Days",
+      ];
+
+      const yearlyData = {
+        categories: bankAndInvoiceDetail.yearly_data.map((d) => d.year),
+
+        invoiceCount: bankAndInvoiceDetail.yearly_data.map(
+          (d) => d.invoice_count
+        ),
+        bankTransactionCount: bankAndInvoiceDetail.yearly_data.map(
+          (d) => d.bank_transaction_count
+        ),
+      };
+      const monthlyData = {
+        categories: bankAndInvoiceDetail.monthly_data.map((d) => d.month),
+        invoiceCount: bankAndInvoiceDetail.monthly_data.map(
+          (d) => d.invoice_count
+        ),
+        bankTransactionCount: bankAndInvoiceDetail.monthly_data.map(
+          (d) => d.bank_transaction_count
+        ),
+      };
+      const weeklyData = {
+        categories: bankAndInvoiceDetail.weekly_data.map((d) => d.week),
+        invoiceCount: bankAndInvoiceDetail.weekly_data.map(
+          (d) => d.invoice_count
+        ),
+
+        bankTransactionCount: bankAndInvoiceDetail.weekly_data.map(
+          (d) => d.bank_transaction_count
+        ),
+      };
+
       setBarChartData({
-        bar: {
-          options: {
-            chart: {
-              id: "basic-bar",
-            },
-            xaxis: {
-              categories: [
-                "0-10 Days",
-                "11-20 Days",
-                "21-30 Days",
-                "31-60 Days",
-                "60+ Days",
-              ],
-            },
-          },
-          series: [
-            {
-              name: "series-1",
-              data: [
-                Math.round(
-                  financialTransaction.outstanding_and_due.overdue_buckets[
-                    "0_10_days"
-                  ]["amount"]
-                ),
-                Math.round(
-                  financialTransaction.outstanding_and_due.overdue_buckets[
-                    "11_20_days"
-                  ]["amount"]
-                ),
-                Math.round(
-                  financialTransaction.outstanding_and_due.overdue_buckets[
-                    "21_30_days"
-                  ]["amount"]
-                ),
-                Math.round(
-                  financialTransaction.outstanding_and_due.overdue_buckets[
-                    "31_60_days"
-                  ]["amount"]
-                ),
-                Math.round(
-                  financialTransaction.outstanding_and_due.overdue_buckets[
-                    "61_plus_days"
-                  ]["amount"]
-                ),
-              ],
-            },
-          ],
-        },
-        donut: {
-          options: {
-            chart: {
-              type: "donut",
-            },
-          },
-          chartOptions: {
-            labels: [
-              "0-10 Days",
-              "11-20 Days",
-              "21-30 Days",
-              "31-60 Days",
-              "60+ Days",
+        bar: createBarChartData(
+          [{ data: bucketDetails, name: "Bucket Data" }],
+          bucketCategories
+        ),
+        donut: createDonutChartData(bucketDetails, "", bucketCategories),
+        growth: {
+          yearly: createBarChartData(
+            [
+              {
+                name: "Invoices",
+                data: yearlyData.invoiceCount,
+              },
+              {
+                name: "Bank Transactions",
+                data: yearlyData.bankTransactionCount,
+              },
             ],
-          },
-          series: [
-            Math.round(
-              financialTransaction.outstanding_and_due.overdue_buckets[
-                "0_10_days"
-              ]["amount"]
-            ),
-            Math.round(
-              financialTransaction.outstanding_and_due.overdue_buckets[
-                "11_20_days"
-              ]["amount"]
-            ),
-            Math.round(
-              financialTransaction.outstanding_and_due.overdue_buckets[
-                "21_30_days"
-              ]["amount"]
-            ),
-            Math.round(
-              financialTransaction.outstanding_and_due.overdue_buckets[
-                "31_60_days"
-              ]["amount"]
-            ),
-            Math.round(
-              financialTransaction.outstanding_and_due.overdue_buckets[
-                "61_plus_days"
-              ]["amount"]
-            ),
-          ],
+            yearlyData.categories
+          ),
+          monthly: createBarChartData(
+            [
+              {
+                name: "Invoices",
+                data: monthlyData.invoiceCount,
+              },
+              {
+                name: "Bank Transactions",
+                data: monthlyData.bankTransactionCount,
+              },
+            ],
+            monthlyData.categories
+          ),
+          weekly: createBarChartData(
+            [
+              {
+                name: "Invoices",
+                data: weeklyData.invoiceCount,
+              },
+              {
+                name: "Bank Transactions",
+                data: weeklyData.bankTransactionCount,
+              },
+            ],
+            weeklyData.categories
+          ),
         },
       });
     }
-  }, [financialTransaction]);
+  }, [financialTransaction, bankAndInvoiceDetail]);
   useEffect(() => {
     if (!financialTransaction) {
       fetchData(
@@ -232,10 +241,87 @@ const Page = () => {
           </div>
 
           {barChartData && (
-            <div className="grid grid-cols-2 gap-2">
-              <BarChart chart_data={barChartData.bar} />
-              <PieChart chart_data={barChartData.donut} />
-            </div>
+            <>
+              <div className="lg:grid lg:grid-cols-2 lg:gap-2 md:grid md:grid-cols-1 md:gap-2 sm:grid sm:grid-cols-1 sm:gap-2">
+                <BarChart
+                  title="Overdue Bucket Data"
+                  chart_data={barChartData.bar}
+                />
+                <LineChart
+                  chart_data={barChartData.growth.yearly}
+                  title="Bank Invoice Transaction Yearly"
+                />
+              </div>
+
+              <div className="lg:grid lg:grid-cols-2 lg:gap-2 md:grid md:grid-cols-1 md:gap-2 sm:grid sm:grid-cols-1 sm:gap-2">
+                <LineChart
+                  title="Bank Invoice Transaction Monthly"
+                  chart_data={barChartData.growth.monthly}
+                />
+                <LineChart
+                  title="Bank Invoice Transaction Weekly"
+                  chart_data={barChartData.growth.weekly}
+                />
+              </div>
+            </>
+          )}
+
+          {bankTransaction && (
+            <SortedTable
+              title={"Bank Transactions"}
+              keys={[
+                "transaction_id",
+                "invoice_number",
+                "amount_dc",
+                "date",
+                "entry_number",
+                "remaining_to_be_booked_amount",
+                "status",
+              ]}
+              key={"transaction_id"}
+              data={bankTransaction}
+              showPagination={true}
+              headers={[
+                "Transaction Id",
+                "Invoice Number",
+                "Amount Dc",
+                "Date",
+                "Entry Number",
+                "Remaining to be booked AMT",
+                "Status",
+              ]}
+            />
+          )}
+
+          {invoiceDetails && (
+            <SortedTable
+              title={"Invoices"}
+              keys={[
+                "transaction_id",
+                "invoice_number",
+                "date",
+                "due_date",
+                "amount_dc",
+                "due_by_days",
+                "status",
+                "is_due",
+                "pdf_file",
+              ]}
+              key={"transaction_id"}
+              data={invoiceDetails}
+              showPagination={true}
+              headers={[
+                "Transaction ID",
+                "Invoice Number",
+                "Date",
+                "Due Date",
+                "Amount DC",
+                "Due By Days",
+                "Status",
+                "Is Due",
+                "PDF FILE",
+              ]}
+            />
           )}
         </Dashboard>
       )}

@@ -3,11 +3,12 @@ import dynamic from "next/dynamic";
 
 const Chart = dynamic(() => import("react-apexcharts"), { ssr: false });
 
-const BarChart = ({ chart_data, title }) => {
+const LineChart = ({ chart_data, title }) => {
   const [chart, setChart] = useState();
 
   useEffect(() => {
     setChart(chart_data);
+    console.log(chart);
   }, [chart_data]);
 
   return (
@@ -21,7 +22,7 @@ const BarChart = ({ chart_data, title }) => {
             <Chart
               options={chart?.options}
               series={chart?.series}
-              type="bar"
+              type="area"
               width="500"
             />
           )}
@@ -31,4 +32,4 @@ const BarChart = ({ chart_data, title }) => {
   );
 };
 
-export default BarChart;
+export default LineChart;

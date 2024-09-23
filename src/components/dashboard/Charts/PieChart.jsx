@@ -3,7 +3,7 @@ import dynamic from "next/dynamic";
 
 const Chart = dynamic(() => import("react-apexcharts"), { ssr: false });
 
-const PieChart = ({ chart_data }) => {
+const PieChart = ({ chart_data, title }) => {
   const [chart, setChart] = useState();
 
   useEffect(() => {
@@ -15,7 +15,7 @@ const PieChart = ({ chart_data }) => {
       <div className="rounded overflow-hidden shadow-lg bg-white flex justify-center mt-4 ">
         <div className="">
           <div className="p-3">
-            <p className="text-lg text-center">Overdue Bucket Invoices</p>
+            <p className="text-lg text-center">{title}</p>
           </div>
           {typeof window !== "undefined" && chart && (
             <Chart
