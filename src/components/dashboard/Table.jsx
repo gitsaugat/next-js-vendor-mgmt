@@ -1,6 +1,7 @@
 "use client";
 import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
+
 export default function SortedTable({
   title,
   headers,
@@ -11,24 +12,50 @@ export default function SortedTable({
   showPagination = false,
 }) {
   const router = useRouter();
-  const [tableData, setTableData] = useState();
+  const [tableData, setTableData] = useState([]);
+  const [sortConfig, setSortConfig] = useState({ key: null, direction: null });
 
-  function updateTableData(data) {
+  function updateTableData(data, sortConfig) {
     if (data) {
-      const arr = [];
-      data?.map((d) => {
+      let arr = data.map((d) => {
         const row = [];
-        keys?.map((k) => {
+        keys.forEach((k) => {
           row.push(d[k]);
         });
-        arr.push(row);
+        return row;
       });
+
+      if (sortConfig.key !== null) {
+        arr = arr.sort((a, b) => {
+          const keyIndex = keys.indexOf(sortConfig.key);
+          if (a[keyIndex] < b[keyIndex]) {
+            return sortConfig.direction === "ascending" ? -1 : 1;
+          }
+          if (a[keyIndex] > b[keyIndex]) {
+            return sortConfig.direction === "ascending" ? 1 : -1;
+          }
+          return 0;
+        });
+      }
+
       setTableData(arr);
     }
   }
+
+  const handleSort = (header) => {
+    const key = keys[headers.indexOf(header)];
+    let direction = "ascending";
+
+    if (sortConfig.key === key && sortConfig.direction === "ascending") {
+      direction = "descending";
+    }
+
+    setSortConfig({ key, direction });
+  };
+
   useEffect(() => {
-    updateTableData(data);
-  }, [data, keys]);
+    updateTableData(data, sortConfig);
+  }, [data, keys, sortConfig]);
 
   return (
     <>
@@ -36,7 +63,7 @@ export default function SortedTable({
         <div className="bg-white rounded-sm shadow-lg px-4 sm:px-6 lg:px-8 mt-4 ">
           <div className="sm:flex sm:items-center ">
             <div className="sm:flex-auto ">
-              <h1 className=" text-base font-semibold leading-6 text-gray-900 text-left p-4">
+              <h1 className="text-base font-semibold leading-6 text-gray-900 text-left p-4">
                 {title}
               </h1>
             </div>
@@ -57,26 +84,37 @@ export default function SortedTable({
                           <th
                             scope="col"
                             key={h}
-                            className="py-3.5 pl-4 pr-3 text-left text-sm font-semibold text-gray-900 sm:pl-3"
+                            onClick={() => handleSort(h)}
+                            className="cursor-pointer py-3.5 pl-4 pr-3 text-left text-sm font-semibold text-gray-900 sm:pl-3"
                           >
                             {h}
+                            {sortConfig.key === keys[headers.indexOf(h)] ? (
+                              sortConfig.direction === "ascending" ? (
+                                <span> ▲</span>
+                              ) : (
+                                <span> ▼</span>
+                              )
+                            ) : null}
                           </th>
                         ))}
                     </tr>
                   </thead>
                   <tbody className="bg-white">
                     {tableData &&
-                      tableData.map((h) => (
+                      tableData.map((row, rowIndex) => (
                         <tr
                           onClick={() => {
-                            router.push(`${detailUrl}/${h[detailKey]}`);
+                            router.push(`${detailUrl}/${row[detailKey]}`);
                           }}
-                          key={Math.random()}
+                          key={rowIndex}
                           className="even:bg-gray-50"
                         >
-                          {h?.map((k) => (
-                            <td className="whitespace-nowrap px-3 py-4 text-sm text-gray-500">
-                              {k}
+                          {row.map((cell, cellIndex) => (
+                            <td
+                              key={cellIndex}
+                              className="whitespace-nowrap px-3 py-4 text-sm text-gray-500"
+                            >
+                              {cell}
                             </td>
                           ))}
                         </tr>
@@ -84,11 +122,11 @@ export default function SortedTable({
                   </tbody>
                 </table>
                 {showPagination && (
-                  <div class="float-end py-3">
-                    <a class=" hover:bg-gray-300 text-gray-800 bg-white shadow-lg py-2 px-4 rounded-xs text-xs cursor-pointer ">
+                  <div className="float-end py-3">
+                    <a className="hover:bg-gray-300 text-gray-800 bg-white shadow-lg py-2 px-4 rounded-xs text-xs cursor-pointer">
                       Previous
                     </a>
-                    <a class=" hover:bg-gray-300 text-gray-800 bg-white shadow-lg py-2 px-4 rounded-xs text-xs cursor-pointer">
+                    <a className="hover:bg-gray-300 text-gray-800 bg-white shadow-lg py-2 px-4 rounded-xs text-xs cursor-pointer">
                       Next
                     </a>
                   </div>

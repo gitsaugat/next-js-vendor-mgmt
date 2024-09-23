@@ -151,7 +151,7 @@ const Page = () => {
     <>
       {financialTransaction && (
         <Dashboard>
-          <div className="grid grid-cols-4">
+          <div className="lg:grid lg:grid-cols-4 lg:gap-4 md:grid md:grid-cols-2 md:gap-4 sm:grid sm:grid-cols-2 sm:gap-4 ">
             <CountCard
               title={"Unique Invoice Count"}
               value={
@@ -232,7 +232,7 @@ const Page = () => {
 
           {barChartData && (
             <>
-              <div className="lg:grid lg:grid-cols-2 lg:gap-2 md:grid md:grid-cols-1 md:gap-2 sm:grid sm:grid-cols-1 sm:gap-2">
+              <div className="lg:grid lg:grid-cols-2 lg:gap-4 md:grid md:grid-cols-1 md:gap-4 sm:grid sm:grid-cols-1 sm:gap-4">
                 <BarChart
                   title="Overdue Bucket Data"
                   chart_data={barChartData.bar}
@@ -243,12 +243,12 @@ const Page = () => {
                 />
               </div>
 
-              <div className="lg:grid lg:grid-cols-2 lg:gap-2 md:grid md:grid-cols-1 md:gap-2 sm:grid sm:grid-cols-1 sm:gap-2">
+              <div className="lg:grid lg:grid-cols-2 lg:gap-4 md:grid md:grid-cols-1 md:gap-4 sm:grid sm:grid-cols-1 sm:gap-4">
                 <LineChart
                   title="Bank Invoice Transaction Monthly"
                   chart_data={barChartData.growth.monthly}
                 />
-                <LineChart
+                <BarChart
                   title="Bank Invoice Transaction Weekly"
                   chart_data={barChartData.growth.weekly}
                 />

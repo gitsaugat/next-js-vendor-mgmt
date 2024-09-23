@@ -201,6 +201,7 @@ const Page = () => {
           "latest_transaction_date",
           "latest_amount",
         ]}
+        showPagination={true}
         title={"Client Summary"}
         data={clientList}
       />
