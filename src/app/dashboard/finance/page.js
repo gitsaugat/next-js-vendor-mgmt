@@ -7,69 +7,15 @@ import { BiNote } from "react-icons/bi";
 import CountCard from "@/components/dashboard/CountCard";
 import BarChart from "@/components/dashboard/Charts/BarChart";
 import SortableTable from "@/components/dashboard/Table";
-import { makeRequest } from "../../../../utils/requestMaker/req";
+import { fetchData, makeRequest } from "../../../../utils/requestMaker/req";
 import PieChart from "@/components/dashboard/Charts/PieChart";
+import {
+  createBarChartData,
+  createDonutChartData,
+} from "../../../../utils/chart";
+import { API_URLS } from "../../../../utils/apis";
+import AreaChart from "@/components/dashboard/Charts/AreaChart";
 
-const createChart = (data) => {
-  const chartData = {
-    options: {
-      chart: {
-        id: "basic-bar",
-      },
-      xaxis: {
-        categories: [
-          "0-10 Days",
-          "11-20 Days",
-          "21-30 Days",
-          "31-60 Days",
-          "60+ Days",
-        ],
-      },
-    },
-    series: [
-      {
-        name: "series-1",
-        data: [
-          Math.round(data.overdue_invoice_buckets_amount.overdue_0_10_amount),
-          Math.round(data.overdue_invoice_buckets_amount.overdue_11_20_amount),
-          Math.round(data.overdue_invoice_buckets_amount.overdue_21_30_amount),
-          Math.round(data.overdue_invoice_buckets_amount.overdue_31_60_amount),
-          Math.round(
-            data.overdue_invoice_buckets_amount.overdue_61_plus_amount
-          ),
-        ],
-      },
-    ],
-  };
-
-  const donutChartData = {
-    options: {
-      chart: {
-        type: "donut",
-      },
-    },
-    chartOptions: {
-      labels: [
-        "0-10 Days",
-        "11-20 Days",
-        "21-30 Days",
-        "31-60 Days",
-        "60+ Days",
-      ],
-    },
-    series: [
-      Math.round(data.overdue_invoice_buckets_count.overdue_0_10),
-      Math.round(data.overdue_invoice_buckets_count.overdue_11_20),
-      Math.round(data.overdue_invoice_buckets_count.overdue_21_30),
-      Math.round(data.overdue_invoice_buckets_count.overdue_31_60),
-      Math.round(data.overdue_invoice_buckets_count.overdue_61_plus),
-    ],
-  };
-  return {
-    bar: chartData,
-    donut: donutChartData,
-  };
-};
 const headers = [
   "Account Code",
   "Account Name",
@@ -84,63 +30,79 @@ const Page = () => {
   const [paymentTracking, setPaymentTracking] = useState();
   const [generalDetails, setGeneralDetails] = useState();
   const [chartData, setChartData] = useState();
+  const [paymentTrackingWeekly, setPaymentTrackingWeekly] = useState();
+  const [paymentTrackingChart, setPaymentTrackingChart] = useState();
+  const createOverdueBucketChart = (data) => {
+    const categories = [
+      "0-10 Days",
+      "11-20 Days",
+      "21-30 Days",
+      "31-60 Days",
+      "60+ Days",
+    ];
+    const barSeries = [
+      {
+        name: "Overdue Bucket Details",
+        data: [
+          Math.round(data.overdue_invoice_buckets_amount.overdue_0_10_amount),
+          Math.round(data.overdue_invoice_buckets_amount.overdue_11_20_amount),
+          Math.round(data.overdue_invoice_buckets_amount.overdue_21_30_amount),
+          Math.round(data.overdue_invoice_buckets_amount.overdue_31_60_amount),
+          Math.round(
+            data.overdue_invoice_buckets_amount.overdue_61_plus_amount
+          ),
+        ],
+      },
+    ];
 
-  const fetchUnbookedTransactions = async () => {
-    try {
-      const res = await makeRequest(
-        "http://127.0.0.1:5000/api/unbooked-transactions",
-        "GET",
-        {}
-      );
-      setUnbookedTransactions(res); // Assuming res.data contains the array of transactions
-    } catch (error) {
-      console.error("Error fetching unbooked transactions:", error);
-    }
-  };
+    const donutData = [
+      Math.round(data.overdue_invoice_buckets_count.overdue_0_10),
+      Math.round(data.overdue_invoice_buckets_count.overdue_11_20),
+      Math.round(data.overdue_invoice_buckets_count.overdue_21_30),
+      Math.round(data.overdue_invoice_buckets_count.overdue_31_60),
+      Math.round(data.overdue_invoice_buckets_count.overdue_61_plus),
+    ];
 
-  const fetchClientTable = async () => {
-    try {
-      const res = await makeRequest(
-        "http://127.0.0.1:5000/api/client-table",
-        "GET",
-        {}
-      );
-      setClientList(res); // Assuming res.data contains the array of transactions
-    } catch (error) {
-      console.error("Error fetching client table:", error);
-    }
-  };
-  const fetchPaymentTracking = async () => {
-    try {
-      const res = await makeRequest(
-        "http://127.0.0.1:5000/api/payment-tracking",
-        "GET",
-        {}
-      );
-      setPaymentTracking(res); // Assuming res.data contains the array of transactions
-    } catch (error) {
-      console.error("Error fetching payment tracking:", error);
-    }
-  };
-
-  const fetchGeneralDetails = async () => {
-    try {
-      const res = await makeRequest(
-        "http://127.0.0.1:5000/api/general-details",
-        "GET",
-        {}
-      );
-      setGeneralDetails(res); // Assuming res.data contains the array of transactions
-      setChartData(createChart(res));
-    } catch (error) {
-      console.error("Error fetching payment tracking:", error);
-    }
+    return {
+      bar: createBarChartData(barSeries, categories),
+      donut: createDonutChartData(donutData, "Overdue Bucket", categories),
+    };
   };
   useEffect(() => {
-    fetchUnbookedTransactions();
-    fetchPaymentTracking();
-    fetchClientTable();
-    fetchGeneralDetails();
+    if (generalDetails) {
+      setChartData(createOverdueBucketChart(generalDetails));
+    }
+  }, [generalDetails]);
+
+  useEffect(() => {
+    if (paymentTrackingWeekly) {
+      let lessPaidBucket =
+        paymentTrackingWeekly.total_less_paid_buckets_counts_last_week;
+      setPaymentTrackingChart(
+        createBarChartData(
+          [
+            {
+              name: "Less Paid Bucket",
+              data: [
+                lessPaidBucket["<10%"],
+                lessPaidBucket["10-30%"],
+                lessPaidBucket["30-50%"],
+                lessPaidBucket["50-70%"],
+                lessPaidBucket["70%+"],
+              ],
+            },
+          ],
+          ["<10%", "10-30%", "30-50%", "50-70%", "70%+"]
+        )
+      );
+    }
+  }, [paymentTrackingWeekly]);
+  useEffect(() => {
+    fetchData(API_URLS.unbookedTransactions(), setUnbookedTransactions);
+    fetchData(API_URLS.clientSummary(), setClientList);
+    fetchData(API_URLS.paymentTracking(), setPaymentTracking);
+    fetchData(API_URLS.generalDetails(), setGeneralDetails);
+    fetchData(API_URLS.paymentTrackerWeekly(), setPaymentTrackingWeekly);
   }, []);
 
   return (
@@ -208,8 +170,14 @@ const Page = () => {
       )}
       {chartData && (
         <div className="lg:grid lg:grid-cols-2 lg:gap-3 sm:grid sm:grid-rows-1">
-          <BarChart chart_data={chartData?.bar} />
-          <PieChart chart_data={chartData?.donut} />
+          <BarChart
+            title={"Overdue Invoices Buckets"}
+            chart_data={chartData?.bar}
+          />
+          <AreaChart
+            title={"Payment Tracking Buckets"}
+            chart_data={paymentTrackingChart}
+          />
         </div>
       )}
       <SortableTable
@@ -269,7 +237,7 @@ const Page = () => {
         )}
       </div>
 
-      {paymentTracking && (
+      {/* {paymentTracking && (
         <div className="lg:grid lg:grid-cols-2 lg:gap-3 sm:grid sm:grid-rows-1">
           <SortableTable
             headers={[
@@ -311,7 +279,7 @@ const Page = () => {
             data={paymentTracking?.matched_invoices}
           />
         </div>
-      )}
+      )} */}
     </Dashboard>
   );
 };

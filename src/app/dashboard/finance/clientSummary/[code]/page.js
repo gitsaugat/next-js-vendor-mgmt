@@ -1,7 +1,7 @@
 "use client";
 import Dashboard from "@/components/dashboard/Dashboard";
 import React, { useEffect, useState } from "react";
-import { makeRequest } from "../../../../../../utils/requestMaker/req";
+import { fetchData } from "../../../../../../utils/requestMaker/req";
 import { API_URLS } from "../../../../../../utils/apis";
 import CountCard from "@/components/dashboard/CountCard";
 import { BiEuro, BiMoney, BiNote } from "react-icons/bi";
@@ -9,7 +9,6 @@ import { FaCcMastercard } from "react-icons/fa";
 import { RiBankFill } from "react-icons/ri";
 import { TbCashRegister } from "react-icons/tb";
 import BarChart from "@/components/dashboard/Charts/BarChart";
-import PieChart from "@/components/dashboard/Charts/PieChart";
 import SortedTable from "@/components/dashboard/Table";
 import {
   createBarChartData,
@@ -24,15 +23,6 @@ const Page = () => {
   const [bankTransaction, setBankTransaction] = useState();
   const [barChartData, setBarChartData] = useState();
   const [growthData, setGrowthData] = useState();
-
-  const fetchData = async (url, setState) => {
-    try {
-      const res = await makeRequest(url, "GET", {});
-      setState(res);
-    } catch (error) {
-      console.error("Error fetching unbooked transactions:", error);
-    }
-  };
 
   useEffect(() => {
     if (financialTransaction && bankAndInvoiceDetail) {

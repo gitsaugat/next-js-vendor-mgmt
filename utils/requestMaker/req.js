@@ -10,4 +10,13 @@ async function makeRequest(url, method, body) {
   return data;
 }
 
-export { makeRequest };
+const fetchData = async (url, setState) => {
+  try {
+    const res = await makeRequest(url, "GET", {});
+    setState(res);
+  } catch (error) {
+    console.error("Error fetching unbooked transactions:", error);
+  }
+};
+
+export { makeRequest, fetchData };
