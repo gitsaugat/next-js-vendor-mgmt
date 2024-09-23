@@ -2,7 +2,7 @@
 import Dashboard from "@/components/dashboard/Dashboard";
 import React, { useEffect, useState } from "react";
 import { BsPeople } from "react-icons/bs";
-import { BiEuro } from "react-icons/bi";
+import { BiEuro, BiSolidBank } from "react-icons/bi";
 import { BiNote } from "react-icons/bi";
 import CountCard from "@/components/dashboard/CountCard";
 import BarChart from "@/components/dashboard/Charts/BarChart";
@@ -118,15 +118,11 @@ const Page = () => {
           <CountCard
             value={generalDetails.total_outstanding_invoices_count}
             title={"Out Standing Invoices "}
-            Icon={BiNote}
-            color="bg-blue-400"
-          />
-          <CountCard
-            value={generalDetails.total_outstanding_amount}
-            title={"Outstanding Amount"}
             Icon={BiEuro}
+            primary={generalDetails.total_outstanding_amount}
             color="bg-blue-400"
           />
+
           <CountCard
             value={generalDetails.total_overdue_clients_count}
             title={"Overdue Clients"}
@@ -137,15 +133,11 @@ const Page = () => {
           <CountCard
             value={generalDetails.total_overdue_invoices_count}
             title={"Overdue Invoices"}
-            Icon={BiNote}
-            color={"bg-red-400"}
-          />
-          <CountCard
-            value={generalDetails.total_overdue_amount}
-            title={"Overdue Invoices Value "}
             Icon={BiEuro}
+            primary={generalDetails.total_overdue_amount}
             color={"bg-red-400"}
           />
+
           <CountCard
             value={
               generalDetails.total_unique_clients_with_unbooked_transactions
@@ -157,13 +149,8 @@ const Page = () => {
           <CountCard
             value={generalDetails.total_unbooked_transactions_count}
             title={"Unbooked Transactions"}
-            Icon={BiNote}
-            color={"bg-yellow-400"}
-          />
-          <CountCard
-            value={generalDetails.total_unbooked_transactions_amount}
-            title={"Unbooked Amount"}
-            Icon={BiEuro}
+            Icon={BiSolidBank}
+            primary={generalDetails.total_unbooked_transactions_amount}
             color={"bg-yellow-400"}
           />
         </div>

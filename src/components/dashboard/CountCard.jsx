@@ -1,7 +1,7 @@
 import React from "react";
 import CountUp from "react-countup";
 
-const CountCard = ({ title, value, Icon, color }) => {
+const CountCard = ({ title, value, Icon, color, primary = null }) => {
   return (
     color && (
       <div
@@ -13,8 +13,14 @@ const CountCard = ({ title, value, Icon, color }) => {
         </div>
 
         <div className="text-right">
-          <h2 className="text-xl font-bold text-gray-700">
-            <CountUp end={value} />
+          <h2 className="text-lg font-bold text-gray-700">
+            {primary != null ? (
+              <>
+                <CountUp end={value} /> (<CountUp end={primary} />)
+              </>
+            ) : (
+              <CountUp end={value} />
+            )}
           </h2>
           <p className="text-gray-500">{title}</p>
         </div>
