@@ -17,16 +17,23 @@ const API_URLS = {
     return BASE_URL + "/api/general-details";
   },
   financialTransactionPerClient: function (clientCode) {
-    return BASE_URL + `/api/financial-transaction/${clientCode}`;
+    return BASE_URL + `/api/financial-transaction?account_code=${clientCode}`;
   },
   bankTransactionDetailPerClient: function (clientCode) {
-    return BASE_URL + `/api/transaction-bank-details/${clientCode}`;
+    return (
+      BASE_URL + `/api/transaction-bank-details?account_code=${clientCode}`
+    );
   },
   invoiceDetailPerClient: function (clientCode) {
-    return BASE_URL + `/api/transaction-invoice-details/${clientCode}`;
+    return (
+      BASE_URL + `/api/transaction-invoice-details?account_code=${clientCode}`
+    );
   },
   bankAndInvoiceDetailsPerClient: function (clientCode) {
-    return BASE_URL + `/api/bank-and-invoice-details-time-period/${clientCode}`;
+    return (
+      BASE_URL +
+      `/api/bank-and-invoice-details-time-period?account_code=${clientCode}`
+    );
   },
 };
 

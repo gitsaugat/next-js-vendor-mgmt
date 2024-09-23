@@ -108,7 +108,7 @@ const Page = () => {
   return (
     <Dashboard>
       {generalDetails && (
-        <div className="lg:grid lg:grid-cols-3 lg:gap-4 sm:grid sm:grid-rows-1 sm:gap-4 xs:gap-3 ">
+        <div className="lg:grid lg:grid-cols-3 lg:gap-4 md:grid md:grid-rows-2 md:gap-4 sm:grid sm:grid-rows-1 sm:gap-4  ">
           <CountCard
             value={generalDetails.total_unique_clients_from_invoices}
             title={"Unique Clients"}
