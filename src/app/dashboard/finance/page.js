@@ -108,52 +108,57 @@ const Page = () => {
   return (
     <Dashboard>
       {generalDetails && (
-        <div className="lg:grid lg:grid-cols-3 lg:gap-4 md:grid md:grid-rows-2 md:gap-4 sm:grid sm:grid-rows-1 sm:gap-4  ">
-          <CountCard
-            value={generalDetails.total_unique_clients_from_invoices}
-            title={"Unique Clients"}
-            Icon={BsPeople}
-            color="bg-green-400"
-          />
-          <CountCard
-            value={generalDetails.total_outstanding_invoices_count}
-            title={"Out Standing Invoices "}
-            Icon={BiEuro}
-            primary={generalDetails.total_outstanding_amount}
-            color="bg-blue-400"
-          />
+        <>
+          <p className="text-gray-500 text-xl font-bold m-2">Invoices</p>
+          <div className="lg:grid lg:grid-cols-3 lg:gap-4 md:grid md:grid-cols-2 md:gap-4 sm:grid sm:grid-cols-1 sm:gap-4  ">
+            <CountCard
+              value={generalDetails.total_outstanding_invoices_count}
+              title={"Out Standing Invoices "}
+              Icon={BiEuro}
+              primary={generalDetails.total_outstanding_amount}
+              color="bg-blue-400"
+            />
+            <CountCard
+              value={generalDetails.total_overdue_clients_count}
+              title={"Overdue Clients"}
+              Icon={BsPeople}
+              color={"bg-red-400"}
+            />
 
-          <CountCard
-            value={generalDetails.total_overdue_clients_count}
-            title={"Overdue Clients"}
-            Icon={BsPeople}
-            color={"bg-red-400"}
-          />
+            <CountCard
+              value={generalDetails.total_overdue_invoices_count}
+              title={"Overdue Invoices"}
+              Icon={BiEuro}
+              primary={generalDetails.total_overdue_amount}
+              color={"bg-red-400"}
+            />
+          </div>
+          <p className="text-gray-500 text-xl font-bold m-2">Banking</p>
+          <div className="lg:grid lg:grid-cols-3 lg:gap-4 md:grid md:grid-cols-2 md:gap-4 sm:grid sm:grid-cols-1 sm:gap-4  ">
+            <CountCard
+              value={generalDetails.total_unique_clients_from_invoices}
+              title={"Unique Clients"}
+              Icon={BsPeople}
+              color="bg-green-400"
+            />
 
-          <CountCard
-            value={generalDetails.total_overdue_invoices_count}
-            title={"Overdue Invoices"}
-            Icon={BiEuro}
-            primary={generalDetails.total_overdue_amount}
-            color={"bg-red-400"}
-          />
-
-          <CountCard
-            value={
-              generalDetails.total_unique_clients_with_unbooked_transactions
-            }
-            title={"Unbooked Transactions Clients"}
-            Icon={BsPeople}
-            color={"bg-yellow-400"}
-          />
-          <CountCard
-            value={generalDetails.total_unbooked_transactions_count}
-            title={"Unbooked Transactions"}
-            Icon={BiSolidBank}
-            primary={generalDetails.total_unbooked_transactions_amount}
-            color={"bg-yellow-400"}
-          />
-        </div>
+            <CountCard
+              value={
+                generalDetails.total_unique_clients_with_unbooked_transactions
+              }
+              title={"Unbooked Transactions Clients"}
+              Icon={BsPeople}
+              color={"bg-yellow-400"}
+            />
+            <CountCard
+              value={generalDetails.total_unbooked_transactions_count}
+              title={"Unbooked Transactions"}
+              Icon={BiSolidBank}
+              primary={generalDetails.total_unbooked_transactions_amount}
+              color={"bg-yellow-400"}
+            />
+          </div>
+        </>
       )}
       {chartData && (
         <div className="lg:grid lg:grid-cols-2 lg:gap-3 sm:grid sm:grid-rows-1">
