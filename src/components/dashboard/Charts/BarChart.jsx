@@ -8,8 +8,8 @@ const BarChart = ({ chart_data }) => {
 
   useEffect(() => {
     setChart(chart_data);
-    console.log(chart_data);
-  }, []);
+    console.log(chart);
+  }, [chart_data]);
 
   return (
     chart && (

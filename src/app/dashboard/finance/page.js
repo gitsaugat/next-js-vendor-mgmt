@@ -1,10 +1,8 @@
 "use client";
 import Dashboard from "@/components/dashboard/Dashboard";
 import React, { useEffect, useState } from "react";
-import { AiFillDollarCircle } from "react-icons/ai";
-import { AiFillBank } from "react-icons/ai";
-import { BsFillPeopleFill, BsPeople } from "react-icons/bs";
-import { BiDollar, BiMoney, BiEuro } from "react-icons/bi";
+import { BsPeople } from "react-icons/bs";
+import { BiEuro } from "react-icons/bi";
 import { BiNote } from "react-icons/bi";
 import CountCard from "@/components/dashboard/CountCard";
 import BarChart from "@/components/dashboard/Charts/BarChart";
@@ -249,7 +247,7 @@ const Page = () => {
             "date",
           ]}
           detailKey={0}
-          detailUrl={"/dashboard/finance/clientSummary"}
+          detailUrl={"/dashboard/finance/overdueInvoices"}
           title={"Overdue Invoices"}
           data={unbookedTransactions}
         />
@@ -264,7 +262,7 @@ const Page = () => {
               "date",
             ]}
             detailKey={0}
-            detailUrl={"/dashboard/finance/clientSummary"}
+            detailUrl={"/dashboard/finance/unbookedTransaction"}
             title={"Unbooked Transactions"}
             data={unbookedTransactions}
           />
@@ -281,7 +279,7 @@ const Page = () => {
               "Total Invoice Amount Dc",
             ]}
             detailKey={0}
-            detailUrl={"/dashboard/finance/clientSummary"}
+            detailUrl={"/dashboard/finance/paymentTracking/matched"}
             keys={[
               "account_code",
               "account_name",
@@ -301,7 +299,7 @@ const Page = () => {
               "Total Invoice Amount Dc",
             ]}
             detailKey={0}
-            detailUrl={"/dashboard/finance/clientSummary"}
+            detailUrl={"/dashboard/finance/paymentTracking/unmatched"}
             keys={[
               "account_code",
               "account_name",
