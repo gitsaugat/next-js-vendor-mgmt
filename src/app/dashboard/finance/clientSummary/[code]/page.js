@@ -16,15 +16,17 @@ import {
 } from "../../../../../../utils/chart";
 import LineChart from "@/components/dashboard/Charts/LineChart";
 import { useParams } from "next/navigation";
+import Tabs from "@/components/dashboard/Tabs";
 
 const Page = () => {
+  const [globalData, setGlobalData] = useState();
   const [financialTransaction, setFinancialTransaction] = useState();
   const [bankAndInvoiceDetail, setBankAndInvoiceDetail] = useState();
   const [invoiceDetails, setInvoiceDetails] = useState();
   const [bankTransaction, setBankTransaction] = useState();
   const [barChartData, setBarChartData] = useState();
   const [growthData, setGrowthData] = useState();
-
+  const [type, setType] = useState();
   const params = useParams();
   const { code } = params;
 
@@ -151,6 +153,58 @@ const Page = () => {
     }
   }, []);
 
+  useEffect(() => {
+    if (type) {
+      if (!globalData) {
+        setGlobalData({
+          bankTransaction: bankTransaction,
+          invoiceDetails: invoiceDetails,
+        });
+      }
+      if (type == "booked") {
+        let bookedTransactions = bankTransaction.map((trans) => {
+          if (trans.status == "booked") {
+            return trans;
+          } else {
+            return "none";
+          }
+        });
+        let paidInvoices = invoiceDetails.map((trans) => {
+          if (trans.status == "paid") {
+            return trans;
+          } else {
+            return "none";
+          }
+        });
+        setBankTransaction(bookedTransactions);
+
+        setInvoiceDetails(paidInvoices);
+      } else {
+        let unbookedBankTransactions = bankTransaction.map((trans) => {
+          if (trans.status == "unbooked") {
+            return trans;
+          } else {
+            return "none";
+          }
+        });
+        let pendingInvoices = invoiceDetails.map((trans) => {
+          if (trans.status == "pending") {
+            return trans;
+          } else {
+            return "none";
+          }
+        });
+        setBankTransaction(unbookedBankTransactions);
+        setInvoiceDetails(pendingInvoices);
+      }
+    } else {
+      if (globalData) {
+        setBankTransaction(globalData.bankTransaction);
+        setInvoiceDetails(globalData.invoiceDetails);
+      }
+    }
+  }, [type]);
+
   return (
     <>
       {financialTransaction && (
@@ -241,82 +295,128 @@ const Page = () => {
                   title="Overdue Bucket Data"
                   chart_data={barChartData.bar}
                 />
-                <LineChart
-                  chart_data={barChartData.growth.yearly}
-                  title="Bank Invoice Transaction Yearly"
-                />
-              </div>
-
-              <div className="lg:grid lg:grid-cols-2 lg:gap-4 md:grid md:grid-cols-1 md:gap-4 sm:grid sm:grid-cols-1 sm:gap-4">
-                <LineChart
-                  title="Bank Invoice Transaction Monthly"
-                  chart_data={barChartData.growth.monthly}
-                />
-                <BarChart
-                  title="Bank Invoice Transaction Weekly"
-                  chart_data={barChartData.growth.weekly}
+                <Tabs
+                  tabs={[
+                    {
+                      name: "Yearly",
+                      href: "#",
+                      current: false,
+                      component: LineChart,
+                      props: barChartData.growth.yearly,
+                    },
+                    {
+                      name: "Monthly",
+                      href: "#",
+                      current: false,
+                      component: LineChart,
+                      props: barChartData.growth.monthly,
+                    },
+                    {
+                      name: "Weekly",
+                      href: "#",
+                      current: true,
+                      component: LineChart,
+                      props: barChartData.growth.weekly,
+                    },
+                  ]}
                 />
               </div>
             </>
           )}
+          <div className="bg-white shadow-lg rounded-lg mt-3">
+            <div className="flex justify-between p-4 bg-gray-50">
+              <div className="text-md font-bold">Cash Flow Table</div>
+              <div className="flex">
+                <div className="">
+                  <label className="p-3 ">Unbooked</label>
+                  <input
+                    type="checkbox"
+                    checked={type == "unbooked"}
+                    onClick={() => {
+                      if (type != "unbooked") {
+                        setType("unbooked");
+                      } else {
+                        setType(undefined);
+                      }
+                    }}
+                  />
+                </div>
+                <div>
+                  <label className="p-3">Booked</label>
+                  <input
+                    type="checkbox"
+                    checked={type == "booked"}
+                    onClick={() => {
+                      if (type != "booked") {
+                        setType("booked");
+                      } else {
+                        setType(undefined);
+                      }
+                    }}
+                  />
+                </div>
+              </div>
+            </div>
+            <div className="lg:grid lg:grid-cols-2 lg:gap-3 sm:grid sm:grid-cols-1 sm:gap-3">
+              {bankTransaction && (
+                <SortedTable
+                  title={"Bank Transactions"}
+                  keys={[
+                    "transaction_id",
+                    "invoice_number",
+                    "amount_dc",
+                    "date",
+                    "entry_number",
+                    "remaining_to_be_booked_amount",
+                    "status",
+                  ]}
+                  key={"transaction_id"}
+                  data={bankTransaction}
+                  showPagination={true}
+                  headers={[
+                    "Transaction Id",
+                    "Invoice Number",
+                    "Amount Dc",
+                    "Date",
+                    "Entry Number",
+                    "Remaining to be booked AMT",
+                    "Status",
+                  ]}
+                />
+              )}
 
-          {bankTransaction && (
-            <SortedTable
-              title={"Bank Transactions"}
-              keys={[
-                "transaction_id",
-                "invoice_number",
-                "amount_dc",
-                "date",
-                "entry_number",
-                "remaining_to_be_booked_amount",
-                "status",
-              ]}
-              key={"transaction_id"}
-              data={bankTransaction}
-              showPagination={true}
-              headers={[
-                "Transaction Id",
-                "Invoice Number",
-                "Amount Dc",
-                "Date",
-                "Entry Number",
-                "Remaining to be booked AMT",
-                "Status",
-              ]}
-            />
-          )}
-
-          {invoiceDetails && (
-            <SortedTable
-              title={"Invoices"}
-              keys={[
-                "transaction_id",
-                "invoice_number",
-                "date",
-                "due_date",
-                "amount_dc",
-                "due_by_days",
-                "status",
-                "is_due",
-                "pdf_file",
-              ]}
-              key={"transaction_id"}
-              data={invoiceDetails}
-              showPagination={true}
-              headers={[
-                "Transaction ID",
-                "Invoice Number",
-                "Date",
-                "Due Date",
-                "Amount DC",
-                "Due By Days",
-                "Status",
-                "Is Due",
-                "PDF FILE",
-              ]}
-            />
-          )}
+              {invoiceDetails && (
+                <SortedTable
+                  title={"Invoices"}
+                  keys={[
+                    "transaction_id",
+                    "invoice_number",
+                    "date",
+                    "due_date",
+                    "amount_dc",
+                    "due_by_days",
+                    "status",
+                    "is_due",
+                    "pdf_file",
+                  ]}
+                  key={"transaction_id"}
+                  data={invoiceDetails}
+                  showPagination={true}
+                  headers={[
+                    "Transaction ID",
+                    "Invoice Number",
+                    "Date",
+                    "Due Date",
+                    "Amount DC",
+                    "Due By Days",
+                    "Status",
+                    "Is Due",
+                    "PDF FILE",
+                  ]}
+                />
+              )}
+            </div>
+          </div>
         </Dashboard>
       )}
     </>

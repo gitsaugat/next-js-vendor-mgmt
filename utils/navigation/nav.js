@@ -28,7 +28,4 @@ export const navigation = [
     icon: CurrencyDollarIcon,
     current: false,
   },
-  { name: "Calendar", href: "#", icon: CalendarIcon, current: false },
-  { name: "Documents", href: "#", icon: DocumentDuplicateIcon, current: false },
-  { name: "Reports", href: "#", icon: ChartPieIcon, current: false },
 ];
