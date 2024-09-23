@@ -113,7 +113,7 @@ const Page = () => {
             value={generalDetails.total_unique_clients_from_invoices}
             title={"Unique Clients"}
             Icon={BsPeople}
-            color="bg-blue-400"
+            color="bg-green-400"
           />
           <CountCard
             value={generalDetails.total_outstanding_invoices_count}
