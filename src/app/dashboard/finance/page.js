@@ -114,6 +114,7 @@ const Page = () => {
             <CountCard
               value={generalDetails.total_outstanding_invoices_count}
               title={"Out Standing Invoices "}
+              onClickRedirect={"/dashboard/finance/outstandingInvoices"}
               Icon={BiEuro}
               primary={generalDetails.total_outstanding_amount}
               color="bg-blue-400"
@@ -121,6 +122,7 @@ const Page = () => {
             <CountCard
               value={generalDetails.total_overdue_clients_count}
               title={"Overdue Clients"}
+              onClickRedirect={"/dashboard/finance/overdueInvoices/clients"}
               Icon={BsPeople}
               color={"bg-red-400"}
             />
@@ -128,6 +130,7 @@ const Page = () => {
             <CountCard
               value={generalDetails.total_overdue_invoices_count}
               title={"Overdue Invoices"}
+              onClickRedirect={"/dashboard/finance/overdueInvoices"}
               Icon={BiEuro}
               primary={generalDetails.total_overdue_amount}
               color={"bg-red-400"}
@@ -147,6 +150,7 @@ const Page = () => {
                 generalDetails.total_unique_clients_with_unbooked_transactions
               }
               title={"Unbooked Transactions Clients"}
+              onClickRedirect={"/dashboard/finance/unbookedTransaction/clients"}
               Icon={BsPeople}
               color={"bg-yellow-400"}
             />
