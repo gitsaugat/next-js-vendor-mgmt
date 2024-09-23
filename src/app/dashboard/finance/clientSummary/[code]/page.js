@@ -15,6 +15,7 @@ import {
   createDonutChartData,
 } from "../../../../../../utils/chart";
 import LineChart from "@/components/dashboard/Charts/LineChart";
+import { useParams } from "next/navigation";
 
 const Page = () => {
   const [financialTransaction, setFinancialTransaction] = useState();
@@ -23,6 +24,9 @@ const Page = () => {
   const [bankTransaction, setBankTransaction] = useState();
   const [barChartData, setBarChartData] = useState();
   const [growthData, setGrowthData] = useState();
+
+  const params = useParams();
+  const { code } = params;
 
   useEffect(() => {
     if (financialTransaction && bankAndInvoiceDetail) {
@@ -126,22 +130,22 @@ const Page = () => {
   useEffect(() => {
     if (!financialTransaction) {
       fetchData(
-        API_URLS.financialTransactionPerClient(1234),
+        API_URLS.financialTransactionPerClient(code),
         setFinancialTransaction
       );
     }
     if (!bankAndInvoiceDetail) {
       fetchData(
-        API_URLS.bankAndInvoiceDetailsPerClient(1234),
+        API_URLS.bankAndInvoiceDetailsPerClient(code),
         setBankAndInvoiceDetail
       );
     }
     if (!invoiceDetails) {
-      fetchData(API_URLS.invoiceDetailPerClient(1234), setInvoiceDetails);
+      fetchData(API_URLS.invoiceDetailPerClient(code), setInvoiceDetails);
     }
     if (!bankTransaction) {
       fetchData(
-        API_URLS.bankTransactionDetailPerClient(1234),
+        API_URLS.bankTransactionDetailPerClient(code),
         setBankTransaction
       );
     }
