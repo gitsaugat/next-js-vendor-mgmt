@@ -25,7 +25,6 @@ const Page = () => {
   const [invoiceDetails, setInvoiceDetails] = useState();
   const [bankTransaction, setBankTransaction] = useState();
   const [barChartData, setBarChartData] = useState();
-  const [growthData, setGrowthData] = useState();
   const [type, setType] = useState();
   const params = useParams();
   const { code } = params;
@@ -132,22 +131,25 @@ const Page = () => {
   useEffect(() => {
     if (!financialTransaction) {
       fetchData(
-        API_URLS.financialTransactionPerClient(code),
+        API_URLS.finance.financialTransactionPerClient(code),
         setFinancialTransaction
       );
     }
     if (!bankAndInvoiceDetail) {
       fetchData(
-        API_URLS.bankAndInvoiceDetailsPerClient(code),
+        API_URLS.finance.bankAndInvoiceDetailsPerClient(code),
         setBankAndInvoiceDetail
       );
     }
     if (!invoiceDetails) {
-      fetchData(API_URLS.invoiceDetailPerClient(code), setInvoiceDetails);
+      fetchData(
+        API_URLS.finance.invoiceDetailPerClient(code),
+        setInvoiceDetails
+      );
     }
     if (!bankTransaction) {
       fetchData(
-        API_URLS.bankTransactionDetailPerClient(code),
+        API_URLS.finance.bankTransactionDetailPerClient(code),
         setBankTransaction
       );
     }

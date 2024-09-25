@@ -9,7 +9,7 @@ const page = () => {
   const [paymentTracking, setPaymentTracking] = useState();
 
   useEffect(() => {
-    fetchData(API_URLS.paymentTracking(), setPaymentTracking);
+    fetchData(API_URLS.finance.paymentTracking(), setPaymentTracking);
   }, []);
   return (
     <Dashboard>

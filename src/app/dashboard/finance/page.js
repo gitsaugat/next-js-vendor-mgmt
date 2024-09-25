@@ -98,11 +98,14 @@ const Page = () => {
     }
   }, [paymentTrackingWeekly]);
   useEffect(() => {
-    fetchData(API_URLS.unbookedTransactions(), setUnbookedTransactions);
-    fetchData(API_URLS.clientSummary(), setClientList);
-    fetchData(API_URLS.paymentTracking(), setPaymentTracking);
-    fetchData(API_URLS.generalDetails(), setGeneralDetails);
-    fetchData(API_URLS.paymentTrackerWeekly(), setPaymentTrackingWeekly);
+    fetchData(API_URLS.finance.unbookedTransactions(), setUnbookedTransactions);
+    fetchData(API_URLS.finance.clientSummary(), setClientList);
+    fetchData(API_URLS.finance.paymentTracking(), setPaymentTracking);
+    fetchData(API_URLS.finance.generalDetails(), setGeneralDetails);
+    fetchData(
+      API_URLS.finance.paymentTrackerWeekly(),
+      setPaymentTrackingWeekly
+    );
   }, []);
 
   return (

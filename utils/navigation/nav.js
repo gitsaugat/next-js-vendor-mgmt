@@ -6,6 +6,7 @@ import {
   HomeIcon,
   UsersIcon,
   CurrencyDollarIcon,
+  BookmarkIcon,
 } from "@heroicons/react/24/outline";
 
 export const teams = [
@@ -26,6 +27,12 @@ export const navigation = [
     name: "Finance",
     href: "/dashboard/finance",
     icon: CurrencyDollarIcon,
+    current: false,
+  },
+  {
+    name: "Labels",
+    href: "/labels",
+    icon: BookmarkIcon,
     current: false,
   },
 ];
