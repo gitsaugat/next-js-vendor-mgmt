@@ -3,42 +3,37 @@ const BASE_URL = process.env.NEXT_PUBLIC_API_BASE_URL;
 const API_URLS = {
   finance: {
     unbookedTransactions: function () {
-      return BASE_URL + "/financial/unbooked-transactions/";
+      return BASE_URL + "/api/financial/unbooked-transactions/";
     },
     paymentTrackerWeekly: function () {
-      return BASE_URL + "/api/paymenttracker-lastweek/";
+      return BASE_URL + "/api/paymenttracker-Weekly-payment-term/";
     },
     clientSummary: function () {
-      return BASE_URL + "/financial-overview-General-client-table/";
+      return BASE_URL + "/api/financial-overview-General-client-table/";
     },
     paymentTracking: function () {
-      return BASE_URL + "/client/payment-tracking/";
+      return BASE_URL + "/api/paymenttracker-Weekly-payment-term/";
     },
     generalDetails: function () {
-      return BASE_URL + "/financial-overview-General/";
+      return BASE_URL + "/api/financial-overview-General/";
     },
     financialTransactionPerClient: function (clientCode) {
-      return (
-        BASE_URL +
-        `/financial-transaction-data-perclient/?account_code=${clientCode}`
+      return ( BASE_URL + `/api/financial-transaction-data-perclient/${clientCode}` 
       );
     },
     bankTransactionDetailPerClient: function (clientCode) {
       return (
-        BASE_URL +
-        `/transaction-bank-details-perclient/?account_code=${clientCode}`
+        BASE_URL + `/api/transaction-bank-details-perclient/${clientCode}`
       );
     },
     invoiceDetailPerClient: function (clientCode) {
       return (
-        BASE_URL +
-        `/transaction-invoice-detail-perclient/?account_code=${clientCode}`
+        BASE_URL + `/api/transaction-invoice-detail-perclient/${clientCode}`
       );
     },
     bankAndInvoiceDetailsPerClient: function (clientCode) {
       return (
-        BASE_URL +
-        `/api/bank-and-invoice-details-time-period?account_code=${clientCode}`
+        BASE_URL + `/api/financial-bank-and-invoice-data-per-client-time-period/${clientCode}`
       );
     },
   },
