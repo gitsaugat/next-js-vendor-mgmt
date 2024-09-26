@@ -190,7 +190,7 @@ const Page = () => {
           "Latest Transaction Date",
           "Latest Amount",
         ]}
-        detailKey={0}
+        detailKey={"account_code"}
         detailUrl={"/dashboard/finance/clientSummary"}
         keys={[
           "account_code",
