@@ -1,17 +1,5 @@
 import { ToastContainer, toast, Bounce } from "react-toastify";
 
-const toastSettins = {
-  position: "top-right",
-  autoClose: 5000,
-  hideProgressBar: false,
-  closeOnClick: true,
-  pauseOnHover: true,
-  draggable: true,
-  progress: undefined,
-  theme: "light",
-  transition: Bounce,
-};
-
 async function makeRequest(url, method, body) {
   const response = await fetch(url, {
     method: method,
