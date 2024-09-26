@@ -11,7 +11,8 @@ import { XMarkIcon } from "@heroicons/react/24/outline";
 import { NavigationFirst, NavigationSecond } from "./nav/Navigation";
 import { navigation, teams } from "../../../utils/navigation/nav";
 import TopNav from "./nav/TopNav";
-
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 const userNavigation = [
   { name: "Your profile", href: "#" },
   { name: "Sign out", href: "#" },
@@ -58,7 +59,16 @@ export default function Dashboard({ children }) {
       </Dialog>
 
       <NavigationSecond navigation={navigation} teams={teams} />
-
+      <ToastContainer
+        position="top-right"
+        autoClose={5000}
+        hideProgressBar={false}
+        closeOnClick
+        rtl={false}
+        pauseOnFocusLoss
+        draggable
+        pauseOnHover
+      />
       <div className="lg:pl-72">
         <TopNav userNavigation={userNavigation} />
 
