@@ -6,7 +6,7 @@ import SubmitButton from "../forms/SubmitButton";
 import { handleRequest } from "../../../utils/requestMaker/req";
 import { API_URLS } from "../../../utils/apis";
 
-const Card = ({ extraClasses, data, children }) => {
+const Card = ({ extraClasses, data, children, normal = false }) => {
   const [open, setOpen] = useState(false);
 
   const [newName, setNewName] = useState();
@@ -42,31 +42,33 @@ const Card = ({ extraClasses, data, children }) => {
       className={`rounded-lg bg-white shadow-xl ${extraClasses}`}
     >
       {children}
-      <Modal open={open} setOpen={setOpen}>
-        <form>
-          <InputField
-            label={"New Name"}
-            value={newName}
-            setState={setNewName}
-            type={"text"}
-          />
-          <SubmitButton
-            text={"Update"}
-            type={"submit"}
-            color={"bg-blue-600"}
-            onClick={updateLabel}
-          />
+      {normal && (
+        <Modal open={open} setOpen={setOpen}>
+          <form>
+            <InputField
+              label={"New Name"}
+              value={newName}
+              setState={setNewName}
+              type={"text"}
+            />
+            <SubmitButton
+              text={"Update"}
+              type={"submit"}
+              color={"bg-blue-600"}
+              onClick={updateLabel}
+            />
 
-          <br />
+            <br />
 
-          <SubmitButton
-            text={"Delete"}
-            type={"button"}
-            color={"bg-red-400"}
-            onClick={deleteLabel}
-          />
-        </form>
-      </Modal>
+            <SubmitButton
+              text={"Delete"}
+              type={"button"}
+              color={"bg-red-400"}
+              onClick={deleteLabel}
+            />
+          </form>
+        </Modal>
+      )}
     </div>
   );
 };

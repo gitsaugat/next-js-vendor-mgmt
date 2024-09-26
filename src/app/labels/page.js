@@ -14,7 +14,7 @@ import SelectField from "@/components/forms/selectField";
 
 const page = () => {
   const [labelsByGroup, setLabelsByGroup] = useState();
-  const [open, setOpen] = useState(true);
+  const [open, setOpen] = useState(false);
 
   const [name, setName] = useState();
   const [type, setType] = useState();
@@ -26,6 +26,7 @@ const page = () => {
       fetchData(API_URLS.labels.listAllLabelsByGroup(), setLabelsByGroup);
     }
   }, [labelsByGroup]);
+
   const onSubmitHandler = (e) => {
     e.preventDefault();
     let data = {
@@ -35,14 +36,23 @@ const page = () => {
       color,
     };
 
-    let response = handleRequest("POST", API_URLS.labels.createLabels(), data);
-
-    console.log(response, "Response");
+    handleRequest("POST", API_URLS.labels.createLabels(), data);
+    fetchData(API_URLS.labels.listAllLabelsByGroup(), setLabelsByGroup);
   };
   return (
     <Dashboard>
+      <div className="flex justify-end">
+        <button
+          onClick={() => {
+            setOpen(!open);
+          }}
+          className="p-3 w-fit bg-blue-500 rounded-md text-white font-bold float-right m-2 hover:bg-blue-700 hover:transition"
+        >
+          Add Label
+        </button>
+      </div>
       {labelsByGroup && (
-        <div>
+        <Card extraClasses={"p-4"}>
           <Modal open={open} setOpen={setOpen}>
             <form>
               <InputField
@@ -95,6 +105,7 @@ const page = () => {
               >
                 {labels?.map((label) => (
                   <Card
+                    normal={true}
                     key={label}
                     data={{ type: label_type, oldName: label.label_name }}
                   >
@@ -115,7 +126,7 @@ const page = () => {
               </Grid>
             </>
           ))}
-        </div>
+        </Card>
       )}
     </Dashboard>
   );
