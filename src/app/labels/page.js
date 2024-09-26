@@ -1,6 +1,6 @@
 "use client";
 import Dashboard from "@/components/dashboard/Dashboard";
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { fetchData, handleRequest } from "../../../utils/requestMaker/req";
 import { API_URLS } from "../../../utils/apis";
 import Header from "@/components/dashboard/Header";
@@ -11,6 +11,8 @@ import Modal from "@/components/dashboard/Modal";
 import InputField from "@/components/forms/InputField";
 import SubmitButton from "@/components/forms/SubmitButton";
 import SelectField from "@/components/forms/selectField";
+import { SketchPicker } from "react-color";
+import { HexColorPicker } from "react-colorful";
 
 const page = () => {
   const [labelsByGroup, setLabelsByGroup] = useState();
@@ -19,7 +21,9 @@ const page = () => {
   const [name, setName] = useState();
   const [type, setType] = useState();
   const [description, setDescription] = useState();
-  const [color, setColor] = useState();
+  const [color, setColor] = useState("#37d67a");
+
+  const [showPicker, setShowPicker] = useState(true);
 
   useEffect(() => {
     if (!labelsByGroup) {
@@ -39,6 +43,7 @@ const page = () => {
     handleRequest("POST", API_URLS.labels.createLabels(), data);
     fetchData(API_URLS.labels.listAllLabelsByGroup(), setLabelsByGroup);
   };
+  const pickerRef = useRef(null);
   return (
     <Dashboard>
       <div className="flex justify-end">
@@ -52,30 +57,21 @@ const page = () => {
         </button>
       </div>
       {labelsByGroup && (
-        <Card extraClasses={"p-4"}>
+        <Card extraClasses={"p-4 min-h-full"}>
           <Modal open={open} setOpen={setOpen}>
-            <Grid className={"grid grid-cols-2 gap-2 "}>
-              <div>
-                <Header title="Notes" font="text-sm" />
-                <div className="card bg-gray-200 p-5 mb-5 rounded-md max-h-fit">
-                  <ul>
-                    <li className="font-medium text-left text-gray-500">
-                      Name : Eg. Urgent{" "}
-                    </li>
-                    <li className="font-medium text-left text-gray-500">
-                      Type : Eg. Client_Level_Label{" "}
-                    </li>
-                    <li className="font-medium text-left text-gray-500">
-                      Description : Eg. A...Z{" "}
-                    </li>
-                    <li className="font-medium text-left text-gray-500">
-                      Color : Eg. #AB1232{" "}
-                    </li>
-                  </ul>
-                  <p className="text-red-500 text-left mt-5">
-                    Each field is required to make the label function properly
-                    {" *"}
-                  </p>
+            <Grid className={"flex flex-row items-center justify-around"}>
+              <div className="h-full">
+                <div
+                  style={{ backgroundColor: color }}
+                  className="card  p-5 mb-5 rounded-md max-h-fit"
+                >
+                  {showPicker && (
+                    <HexColorPicker
+                      className="w-full m-auto"
+                      color={color}
+                      onChange={setColor}
+                    />
+                  )}
                 </div>
               </div>
               <form className="border-solid">
@@ -102,12 +98,14 @@ const page = () => {
                   label={"Label Description"}
                   type={"text"}
                 />
-                <InputField
-                  value={color}
-                  setState={setColor}
-                  label={"Label Color"}
-                  type={"text"}
-                />
+                <div className="flex flex-col">
+                  <InputField
+                    value={color}
+                    setState={setColor}
+                    label={"Label Color"}
+                    type={"text"}
+                  />
+                </div>
                 <SubmitButton
                   text={"Create Label"}
                   onClick={(e) => {
