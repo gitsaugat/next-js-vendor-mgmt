@@ -54,45 +54,70 @@ const page = () => {
       {labelsByGroup && (
         <Card extraClasses={"p-4"}>
           <Modal open={open} setOpen={setOpen}>
-            <form>
-              <InputField
-                value={name}
-                setState={setName}
-                label={"Name"}
-                type={"text"}
-              />
-              <SelectField
-                label={"Type"}
-                type={"text"}
-                value={type}
-                setState={setType}
-                options={labelsByGroup.map(({ label_type }) => ({
-                  label: label_type,
-                  value: label_type,
-                }))}
-              />
-              <InputField
-                value={description}
-                setState={setDescription}
-                label={"Label Description"}
-                type={"text"}
-              />
-              <InputField
-                value={color}
-                setState={setColor}
-                label={"Label Color"}
-                type={"text"}
-              />
-              <SubmitButton
-                text={"Create Label"}
-                onClick={(e) => {
-                  console.log("clicked");
-                  onSubmitHandler(e);
-                }}
-                color={"bg-green-500"}
-                type={"submit"}
-              />
-            </form>
+            <Grid className={"grid grid-cols-2 gap-2 "}>
+              <div>
+                <Header title="Quick tips" />
+                <div className="card bg-gray-200 p-5 mb-5 rounded-md max-h-fit">
+                  <ul>
+                    <li className="font-bold text-left text-gray-500">
+                      Name : Eg. Urgent{" "}
+                    </li>
+                    <li className="font-bold text-left text-gray-500">
+                      Type : Eg. Client_Level_Label{" "}
+                    </li>
+                    <li className="font-bold text-left text-gray-500">
+                      Description : Eg. A...Z{" "}
+                    </li>
+                    <li className="font-bold text-left text-gray-500">
+                      Color : Eg. #AB1232{" "}
+                    </li>
+                  </ul>
+                </div>
+                <p className="text-red-500 text-left">
+                  Each field is required to make the label function properly
+                  {" *"}
+                </p>
+              </div>
+              <form>
+                <InputField
+                  value={name}
+                  setState={setName}
+                  label={"Name"}
+                  type={"text"}
+                />
+                <SelectField
+                  label={"Type"}
+                  type={"text"}
+                  value={type}
+                  setState={setType}
+                  options={labelsByGroup.map(({ label_type }) => ({
+                    label: label_type,
+                    value: label_type,
+                  }))}
+                />
+                <InputField
+                  value={description}
+                  setState={setDescription}
+                  label={"Label Description"}
+                  type={"text"}
+                />
+                <InputField
+                  value={color}
+                  setState={setColor}
+                  label={"Label Color"}
+                  type={"text"}
+                />
+                <SubmitButton
+                  text={"Create Label"}
+                  onClick={(e) => {
+                    console.log("clicked");
+                    onSubmitHandler(e);
+                  }}
+                  color={"bg-green-500"}
+                  type={"submit"}
+                />
+              </form>
+            </Grid>
           </Modal>
           {labelsByGroup.map(({ label_type, labels }) => (
             <>
@@ -107,7 +132,12 @@ const page = () => {
                   <Card
                     normal={true}
                     key={label}
-                    data={{ type: label_type, oldName: label.label_name }}
+                    data={{
+                      type: label_type,
+                      oldName: label.label_name,
+                      color: label.label_color,
+                      description: label.label_description,
+                    }}
                   >
                     <div className="flex justify-between items-center">
                       <div
