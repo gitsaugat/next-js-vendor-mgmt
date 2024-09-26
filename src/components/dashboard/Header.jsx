@@ -4,9 +4,9 @@ function convertUnderscoreToSpace(label) {
   return label.replace(/_/g, " ");
 }
 
-const Header = ({ title, split = false }) => {
+const Header = ({ title, split = false, font = "text-xl" }) => {
   return (
-    <p className="text-gray-500 text-xl font-bold m-2">
+    <p className={`text-gray-500 ${font} font-bold m-2`}>
       {split ? convertUnderscoreToSpace(title) : title}
     </p>
   );

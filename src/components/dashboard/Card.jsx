@@ -46,26 +46,31 @@ const Card = ({ extraClasses, data, children, normal = false }) => {
       {children}
       {normal && (
         <Modal open={open} setOpen={setOpen}>
-          <Grid className={"grid grid-cols-2 gap-2 "}>
+          <Grid className={"grid grid-cols-2 gap-4  "}>
             <div>
-              <Header title="Label Information" />
+              <Header font="text-sm" title="Label Information" />
               <div className="card bg-gray-200 p-5 mb-5 rounded-md max-h-fit">
                 <ul>
-                  <li className="font-bold text-left">
+                  <li className="font-medium text-gray-500 text-left">
                     Name : {data.oldName}{" "}
                   </li>
-                  <li className="font-bold text-left">Type : {data.type}</li>
-                  <li className="font-bold text-left">
+                  <li className="font-medium text-gray-500 text-left">
+                    Type : {data.type}
+                  </li>
+                  <li className="font-medium text-gray-500 text-left">
                     Description : {data.description}
                   </li>
-                  <li className="font-bold text-left">Color : {data.color} </li>
+                  <li className="font-medium text-gray-500 text-left">
+                    Color : {data.color}{" "}
+                  </li>
                 </ul>
+                <p className="text-red-500 text-left mt-5">
+                  You do not need to input name to delete label *
+                </p>
               </div>
-              <p className="text-red-500 text-left">
-                You do not need to input name to delete label *
-              </p>
             </div>
             <form>
+              <Header font="text-sm" title={"Label Update Form"} />
               <InputField
                 label={"New Name"}
                 value={newName}

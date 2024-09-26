@@ -56,29 +56,30 @@ const page = () => {
           <Modal open={open} setOpen={setOpen}>
             <Grid className={"grid grid-cols-2 gap-2 "}>
               <div>
-                <Header title="Quick tips" />
+                <Header title="Notes" font="text-sm" />
                 <div className="card bg-gray-200 p-5 mb-5 rounded-md max-h-fit">
                   <ul>
-                    <li className="font-bold text-left text-gray-500">
+                    <li className="font-medium text-left text-gray-500">
                       Name : Eg. Urgent{" "}
                     </li>
-                    <li className="font-bold text-left text-gray-500">
+                    <li className="font-medium text-left text-gray-500">
                       Type : Eg. Client_Level_Label{" "}
                     </li>
-                    <li className="font-bold text-left text-gray-500">
+                    <li className="font-medium text-left text-gray-500">
                       Description : Eg. A...Z{" "}
                     </li>
-                    <li className="font-bold text-left text-gray-500">
+                    <li className="font-medium text-left text-gray-500">
                       Color : Eg. #AB1232{" "}
                     </li>
                   </ul>
+                  <p className="text-red-500 text-left mt-5">
+                    Each field is required to make the label function properly
+                    {" *"}
+                  </p>
                 </div>
-                <p className="text-red-500 text-left">
-                  Each field is required to make the label function properly
-                  {" *"}
-                </p>
               </div>
-              <form>
+              <form className="border-solid">
+                <Header title={"Label Create Form"} font={"text-sm"} />
                 <InputField
                   value={name}
                   setState={setName}
