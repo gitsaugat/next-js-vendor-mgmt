@@ -37,7 +37,20 @@ const API_URLS = {
       );
     },
   },
-  labels: {},
+  labels: {
+    listAllLabelsByGroup: () => {
+      return BASE_URL + "/api/list-labels-by-group";
+    },
+    updateLabels: () => {
+      return BASE_URL + "/api/update-label";
+    },
+    deleteLabels: () => {
+      return BASE_URL + "/api/delete-label/";
+    },
+    createLabels: () => {
+      return BASE_URL + "/api/create-label";
+    },
+  },
 };
 
 export { BASE_URL, API_URLS };

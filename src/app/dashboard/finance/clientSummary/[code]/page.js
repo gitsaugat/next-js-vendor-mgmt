@@ -128,6 +128,7 @@ const Page = () => {
       });
     }
   }, [financialTransaction, bankAndInvoiceDetail]);
+
   useEffect(() => {
     if (!financialTransaction) {
       fetchData(
@@ -212,7 +213,7 @@ const Page = () => {
       {financialTransaction && (
         <Dashboard>
           <p className="text-gray-500 text-xl font-bold m-2">Invoices</p>
-          <div className="lg:grid lg:grid-cols-4 lg:gap-4 md:grid md:grid-cols-2 md:gap-4 sm:grid sm:grid-cols-2 sm:gap-4 ">
+          <div className="lg:grid lg:grid-cols-4 lg:gap-4 md:grid md:grid-cols-2 md:gap-4 sm:grid sm:grid-cols-2 sm:gap-4">
             <CountCard
               title={"Unique Invoice Count"}
               value={
