@@ -6,7 +6,7 @@ const API_URLS = {
       return BASE_URL + "/financial/unbooked-transactions/";
     },
     paymentTrackerWeekly: function () {
-      return BASE_URL + "/api/payment-tracking-weekly";
+      return BASE_URL + "/api/paymenttracker-lastweek/";
     },
     clientSummary: function () {
       return BASE_URL + "/financial-overview-General-client-table/";
