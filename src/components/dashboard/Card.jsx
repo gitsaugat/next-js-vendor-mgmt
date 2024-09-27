@@ -7,9 +7,11 @@ import { handleRequest } from "../../../utils/requestMaker/req";
 import { API_URLS } from "../../../utils/apis";
 import Grid from "./Grid";
 import Header from "./Header";
+import { HexColorPicker } from "react-colorful";
 
 const Card = ({ extraClasses, data, children, normal = false }) => {
   const [open, setOpen] = useState(false);
+  const [color, setColor] = useState("#00000");
 
   const [newName, setNewName] = useState();
   const updateLabel = (event) => {
@@ -50,23 +52,11 @@ const Card = ({ extraClasses, data, children, normal = false }) => {
             <div>
               <Header font="text-sm" title="Label Information" />
               <div className="card bg-gray-200 p-5 mb-5 rounded-md max-h-fit">
-                <ul>
-                  <li className="font-medium text-gray-500 text-left">
-                    Name : {data.oldName}{" "}
-                  </li>
-                  <li className="font-medium text-gray-500 text-left">
-                    Type : {data.type}
-                  </li>
-                  <li className="font-medium text-gray-500 text-left">
-                    Description : {data.description}
-                  </li>
-                  <li className="font-medium text-gray-500 text-left">
-                    Color : {data.color}{" "}
-                  </li>
-                </ul>
-                <p className="text-red-500 text-left mt-5">
-                  You do not need to input name to delete label *
-                </p>
+                <HexColorPicker
+                  className="w-full m-auto"
+                  color={color}
+                  onChange={setColor}
+                />
               </div>
             </div>
             <form>
@@ -75,6 +65,12 @@ const Card = ({ extraClasses, data, children, normal = false }) => {
                 label={"New Name"}
                 value={newName}
                 setState={setNewName}
+                type={"text"}
+              />
+              <InputField
+                label={"Color"}
+                value={color}
+                setState={setColor}
                 type={"text"}
               />
               <SubmitButton

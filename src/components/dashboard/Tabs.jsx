@@ -45,7 +45,7 @@ export default function Tabs({ tabs }) {
           </nav>
         </div>
         <div className="mt-4">
-          <LineChart chart_data={activeTab.props} />
+          <LineChart height="100%" width="100%" chart_data={activeTab.props} />
         </div>
       </div>
     )

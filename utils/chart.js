@@ -2,6 +2,7 @@ const createBarChartData = (series, categories) => {
   return {
     options: {
       chart: {
+        width: "1000px",
         id: "basic-bar",
       },
       xaxis: {
@@ -16,6 +17,7 @@ const createDonutChartData = (data, seriesName, categories) => {
   return {
     options: {
       chart: {
+        width: "1000px",
         type: "donut",
       },
     },
