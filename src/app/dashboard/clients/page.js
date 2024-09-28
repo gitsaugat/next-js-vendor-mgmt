@@ -14,6 +14,7 @@ import dynamic from "next/dynamic";
 import Info from "@/components/dashboard/tags/Info";
 import { fetchData, handleRequest } from "../../../../utils/requestMaker/req";
 import { API_URLS } from "../../../../utils/apis";
+import CardContainer from "@/components/dashboard/CardContainer";
 const ReactMap = dynamic(() => import("@/components/dashboard/ReactMap"), {
   ssr: false,
 });
@@ -101,45 +102,52 @@ const page = () => {
           color={"bg-red-400"}
         />
       </Grid>
-      <Grid className={"grid grid-cols-2 gap-3 mt-2"}>
-        <PieChart
-          title={"Client Types"}
-          chart_data={createDonutChartData(
-            [10, 2, 3, 20, 58, 60, 7, 8],
-            [
-              "SUSHI",
-              "CAR WASH",
-              "INDIAN",
-              "THAI",
-              "AMERICAN",
-              "EURO",
-              "G",
-              "H",
-            ]
-          )}
-        />
-      </Grid>
       <br />
-      <Header title={"Client Geo Analytics"} />
+      <Header title={"Client Metrics"} />
       <br />
-      {citiesWithClients && (
-        <Grid className={"grid grid-cols-2 gap-2 "}>
-          <Grid className={"grid grid-cols-1  max-h-96 gap-2 overflow-scroll"}>
-            {[...Object.keys(citiesWithClients)].map((obj) => (
-              <Info
-                key={""}
-                initials={obj}
-                href={""}
-                name={obj}
-                bgColor={"bg-pink-600"}
-                members={citiesWithClients[obj]}
-              />
-            ))}
-          </Grid>
-          <ReactMap data={clientGeoData} />
+      <CardContainer header={"Type charts"}>
+        <Grid className={"grid grid-cols-2 gap-3 mt-2"}>
+          <PieChart
+            title={"Client Types"}
+            chart_data={createDonutChartData(
+              [10, 2, 3, 20, 58, 60, 7, 8],
+              [
+                "SUSHI",
+                "CAR WASH",
+                "INDIAN",
+                "THAI",
+                "AMERICAN",
+                "EURO",
+                "G",
+                "H",
+              ]
+            )}
+          />
         </Grid>
-      )}
-
+      </CardContainer>
+      <br />
+      <CardContainer header={"Client Geo Analytics"}>
+        {citiesWithClients && (
+          <Grid className={"grid grid-cols-2 gap-2 "}>
+            <Grid
+              className={"grid grid-cols-1  max-h-96 gap-2 overflow-scroll"}
+            >
+              {[...Object.keys(citiesWithClients)].map((obj) => (
+                <Info
+                  key={""}
+                  initials={obj}
+                  href={""}
+                  name={obj}
+                  bgColor={"bg-pink-600"}
+                  members={citiesWithClients[obj]}
+                />
+              ))}
+            </Grid>
+            <ReactMap data={clientGeoData} />
+          </Grid>
+        )}
+      </CardContainer>
+      <br />
       <SortedTable
         title={"EO Client Data"}
         headers={""}
