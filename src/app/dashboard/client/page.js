@@ -6,16 +6,15 @@ import Header from "@/components/dashboard/Header";
 import SortedTable from "@/components/dashboard/Table";
 import React from "react";
 import { BiMailSend } from "react-icons/bi";
-import { BsMailbox, BsPeople } from "react-icons/bs";
-import { random_EO_DATA, RANDOM_ROPP_DATA } from "../../../../utils/data";
-import BarChart from "@/components/dashboard/Charts/BarChart";
-import LineChart from "@/components/dashboard/Charts/LineChart";
-import {
-  createBarChartData,
-  createDonutChartData,
-} from "../../../../utils/chart";
+import { BsPeople } from "react-icons/bs";
+import { random_EO_DATA } from "../../../../utils/data";
+import { createDonutChartData } from "../../../../utils/chart";
 import PieChart from "@/components/dashboard/Charts/PieChart";
-import ReactMap from "@/components/dashboard/ReactMap";
+import dynamic from "next/dynamic";
+const ReactMap = dynamic(() => import("@/components/dashboard/ReactMap"), {
+  ssr: false,
+});
+
 const page = () => {
   return (
     <Dashboard>
