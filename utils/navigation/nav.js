@@ -19,7 +19,7 @@ export const navigation = [
   { name: "Dashboard", href: "/", icon: HomeIcon, current: true },
   {
     name: "Clients",
-    href: "/dashboard/client",
+    href: "/dashboard/clients",
     icon: UsersIcon,
     current: false,
   },

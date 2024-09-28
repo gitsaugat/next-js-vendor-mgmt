@@ -4,18 +4,54 @@ import Dashboard from "@/components/dashboard/Dashboard";
 import Grid from "@/components/dashboard/Grid";
 import Header from "@/components/dashboard/Header";
 import SortedTable from "@/components/dashboard/Table";
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { BiMailSend } from "react-icons/bi";
 import { BsPeople } from "react-icons/bs";
 import { random_EO_DATA } from "../../../../utils/data";
 import { createDonutChartData } from "../../../../utils/chart";
 import PieChart from "@/components/dashboard/Charts/PieChart";
 import dynamic from "next/dynamic";
+import Info from "@/components/dashboard/tags/Info";
+import { fetchData, handleRequest } from "../../../../utils/requestMaker/req";
+import { API_URLS } from "../../../../utils/apis";
 const ReactMap = dynamic(() => import("@/components/dashboard/ReactMap"), {
   ssr: false,
 });
 
 const page = () => {
+  const [citiesWithClients, setCitiesWithClients] = useState();
+  const [clientGeoData, setClientGeoData] = useState();
+
+  const fetchCities = async () => {
+    let response = await handleRequest(
+      "GET",
+      API_URLS.clientGeneral.listCitiesWithClientCounts(),
+      null
+    );
+    if (response) {
+      setCitiesWithClients(response);
+    }
+  };
+
+  const fetchGeoData = async () => {
+    let response = await handleRequest(
+      "GET",
+      API_URLS.clientGeneral.clientGeoData(),
+      null
+    );
+    if (response) {
+      setClientGeoData(response);
+    }
+  };
+
+  useEffect(() => {
+    if (!citiesWithClients) {
+      fetchCities();
+    }
+    if (!clientGeoData) {
+      fetchGeoData();
+    }
+  }, []);
   return (
     <Dashboard>
       <Header title={"Web Shop Summary"} />
@@ -65,7 +101,6 @@ const page = () => {
           color={"bg-red-400"}
         />
       </Grid>
-
       <Grid className={"grid grid-cols-2 gap-3 mt-2"}>
         <PieChart
           title={"Client Types"}
@@ -83,12 +118,33 @@ const page = () => {
             ]
           )}
         />
-        <ReactMap />
       </Grid>
+      <br />
+      <Header title={"Client Geo Analytics"} />
+      <br />
+      {citiesWithClients && (
+        <Grid className={"grid grid-cols-2 gap-2 "}>
+          <Grid className={"grid grid-cols-1  max-h-96 gap-2 overflow-scroll"}>
+            {[...Object.keys(citiesWithClients)].map((obj) => (
+              <Info
+                key={""}
+                initials={obj}
+                href={""}
+                name={obj}
+                bgColor={"bg-pink-600"}
+                members={citiesWithClients[obj]}
+              />
+            ))}
+          </Grid>
+          <ReactMap data={clientGeoData} />
+        </Grid>
+      )}
 
       <SortedTable
         title={"EO Client Data"}
         headers={""}
+        detailKey="account_id"
+        detailUrl="/dashboard/clients/"
         data={random_EO_DATA}
         keys={[
           "account_id",
@@ -125,8 +181,6 @@ const page = () => {
           "discount_sales",
           "customer_since",
         ]}
-        detailKey={""}
-        detailUrl={""}
         showPagination={""}
       />
       <SortedTable

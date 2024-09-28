@@ -1,4 +1,5 @@
 const createBarChartData = (series, categories) => {
+  console.log(series, categories);
   return {
     options: {
       chart: {

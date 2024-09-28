@@ -18,13 +18,12 @@ const API_URLS = {
       return BASE_URL + "/api/financial-overview-General/";
     },
     financialTransactionPerClient: function (clientCode) {
-      return ( BASE_URL + `/api/financial-transaction-data-perclient/${clientCode}` 
+      return (
+        BASE_URL + `/api/financial-transaction-data-perclient/${clientCode}`
       );
     },
     bankTransactionDetailPerClient: function (clientCode) {
-      return (
-        BASE_URL + `/api/transaction-bank-details-perclient/${clientCode}`
-      );
+      return BASE_URL + `/api/transaction-bank-details-perclient/${clientCode}`;
     },
     invoiceDetailPerClient: function (clientCode) {
       return (
@@ -33,7 +32,8 @@ const API_URLS = {
     },
     bankAndInvoiceDetailsPerClient: function (clientCode) {
       return (
-        BASE_URL + `/api/financial-bank-and-invoice-data-per-client-time-period/${clientCode}`
+        BASE_URL +
+        `/api/financial-bank-and-invoice-data-per-client-time-period/${clientCode}`
       );
     },
   },
@@ -49,6 +49,32 @@ const API_URLS = {
     },
     createLabels: () => {
       return BASE_URL + "/api/Create-New-label-for-type/";
+    },
+  },
+
+  clientGeneral: {
+    listCitiesWithClientCounts: () => {
+      return BASE_URL + "/client-city-postal-count/";
+    },
+
+    clientGeoData: () => {
+      return BASE_URL + "/client-geo-data/";
+    },
+  },
+  clientDetail: {
+    clientFinancialDetail: (clientCode) => {
+      return BASE_URL + `/client-financial-data/${clientCode}`;
+    },
+    clientDetail: (clientCode) => {
+      return BASE_URL + `/client-details/${clientCode}`;
+    },
+
+    top10Products: (clientCode) => {
+      return BASE_URL + `/order-pattern/top-10-products/${clientCode}`;
+    },
+
+    allProducts: (clientCode) => {
+      return BASE_URL + `/order-pattern/top-all-ordered-products/${clientCode}`;
     },
   },
 };

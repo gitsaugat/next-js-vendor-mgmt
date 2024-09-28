@@ -8,6 +8,7 @@ const BarChart = ({ chart_data, title }) => {
 
   useEffect(() => {
     setChart(chart_data);
+    console.log(chart_data, "chart data");
   }, [chart_data]);
 
   return (
