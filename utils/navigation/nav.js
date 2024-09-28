@@ -24,6 +24,12 @@ export const navigation = [
     current: false,
   },
   {
+    name: "Products",
+    href: "/dashboard/product",
+    icon: FolderIcon,
+    current: false,
+  },
+  {
     name: "Finance",
     href: "/dashboard/finance",
     icon: CurrencyDollarIcon,

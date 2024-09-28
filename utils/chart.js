@@ -13,18 +13,29 @@ const createBarChartData = (series, categories) => {
   };
 };
 
-const createDonutChartData = (data, seriesName, categories) => {
+const createDonutChartData = (series, labels) => {
   return {
     options: {
       chart: {
-        width: "1000px",
-        type: "donut",
+        width: 380,
+        type: "pie",
       },
+      labels: labels,
+      responsive: [
+        {
+          breakpoint: 480,
+          options: {
+            chart: {
+              width: 200,
+            },
+            legend: {
+              position: "bottom",
+            },
+          },
+        },
+      ],
     },
-    chartOptions: {
-      labels: categories,
-    },
-    series: data,
+    series: series,
   };
 };
 

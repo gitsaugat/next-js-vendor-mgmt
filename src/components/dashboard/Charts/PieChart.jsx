@@ -21,7 +21,7 @@ const PieChart = ({ chart_data, title }) => {
             <Chart
               options={chart.options}
               series={chart.series}
-              type="donut"
+              type="pie"
               width="500"
             />
           )}
