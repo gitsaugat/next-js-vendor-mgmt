@@ -167,27 +167,54 @@ const Page = () => {
             )}
           </Grid>
           <br />
-          <Grid className={"grid grid-cols-2 gap-3"}>
-            <CardContainer onClick={() => {}} header={"Business Days"}>
-              <StackedList
-                data={[
-                  "Sunday",
-                  "Monday",
-                  "Tuesday",
-                  "Wednesday",
-                  "Thursday",
-                  "Friday",
-                  "Saturday",
-                ].map((d) => ({
-                  title: d,
-                  value: clientDetail.EO_Data.closed_days.includes(d)
-                    ? "CLOSED"
-                    : "OPEN",
-                }))}
-              />
-            </CardContainer>
-            <CardContainer onClick={() => {}} header={"Labels"}></CardContainer>
-          </Grid>
+          {clientDetail && (
+            <Grid className={"grid grid-cols-2 gap-3"}>
+              <CardContainer onClick={() => {}} header={"Business Days"}>
+                <Grid className={"grid grid-cols-1 gap-2"}>
+                  {[
+                    "Sunday",
+                    "Monday",
+                    "Tuesday",
+                    "Wednesday",
+                    "Thursday",
+                    "Friday",
+                    "Saturday",
+                  ].map((d) => (
+                    <Info
+                      key={d}
+                      initials={d}
+                      href=""
+                      name={d}
+                      bgColor={
+                        clientDetail.EO_Data.closed_days.includes(d)
+                          ? "bg-red-200"
+                          : "bg-green-200"
+                      }
+                      members={
+                        clientDetail.EO_Data.closed_days.includes(d)
+                          ? "closed"
+                          : "open"
+                      }
+                    />
+                  ))}
+                </Grid>
+              </CardContainer>
+              <CardContainer onClick={() => {}} header={"Labels"}>
+                <Grid className={"grid grid-cols-1 gap-2"}>
+                  {clientDetail.EO_Data.dynamic_client_level_labels.map((d) => (
+                    <Info
+                      key={d}
+                      initials={d}
+                      href=""
+                      name={d}
+                      bgColor={""}
+                      members={""}
+                    />
+                  ))}
+                </Grid>
+              </CardContainer>
+            </Grid>
+          )}
           <br />
           <Header title={"Transaction Metrics"} />
           <br />
