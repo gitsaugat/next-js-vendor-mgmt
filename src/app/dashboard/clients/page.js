@@ -150,16 +150,15 @@ const page = () => {
             <Grid
               className={"grid grid-cols-1  max-h-96 gap-2 overflow-scroll"}
             >
-              {[...Object.keys(citiesWithClients)].map((obj) => (
-                <Info
-                  key={""}
-                  initials={obj}
-                  href={""}
-                  name={obj}
-                  bgColor={"bg-pink-600"}
-                  members={`${citiesWithClients[obj]}`}
-                />
-              ))}
+              <PieChart
+                chart_data={createDonutChartData(
+                  [...Object.keys(citiesWithClients)].map(
+                    (obj) => citiesWithClients[obj]
+                  ),
+                  [...Object.keys(citiesWithClients)].map((obj) => obj)
+                )}
+                title={"Cities"}
+              />
             </Grid>
             <ReactMap data={clientGeoData} />
           </Grid>
