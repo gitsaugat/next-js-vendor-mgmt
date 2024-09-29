@@ -22,6 +22,7 @@ const ReactMap = dynamic(() => import("@/components/dashboard/ReactMap"), {
 const page = () => {
   const [citiesWithClients, setCitiesWithClients] = useState();
   const [clientGeoData, setClientGeoData] = useState();
+  const [top10Clients, setTop10Clients] = useState();
 
   const fetchCities = async () => {
     let response = await handleRequest(
@@ -45,12 +46,26 @@ const page = () => {
     }
   };
 
+  const fetchTop10Clients = async (interval) => {
+    let response = await handleRequest(
+      "GET",
+      API_URLS.clientGeneral.top10Clients(interval),
+      null
+    );
+    if (response) {
+      setTop10Clients(response);
+    }
+  };
+
   useEffect(() => {
     if (!citiesWithClients) {
       fetchCities();
     }
     if (!clientGeoData) {
       fetchGeoData();
+    }
+    if (!top10Clients) {
+      fetchTop10Clients("last_month");
     }
   }, []);
   return (
@@ -148,6 +163,22 @@ const page = () => {
         )}
       </CardContainer>
       <br />
+      {top10Clients && (
+        <CardContainer header={"Top 10 Clients"}>
+          <Grid className={"grid grid-cols-5 gap-3"}>
+            {top10Clients.map((client) => (
+              <Info
+                key={client.account_code}
+                initials={""}
+                href={"/dashboard/clients/" + client.account_code}
+                name={client.account_code}
+                bgColor={""}
+                members={client.total_amount}
+              />
+            ))}
+          </Grid>
+        </CardContainer>
+      )}
       <SortedTable
         title={"EO Client Data"}
         headers={""}

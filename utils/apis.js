@@ -60,6 +60,9 @@ const API_URLS = {
     clientGeoData: () => {
       return BASE_URL + "/client-geo-data/";
     },
+    top10Clients: (interval) => {
+      return BASE_URL + `/top10customers/${interval}`;
+    },
   },
   clientDetail: {
     clientFinancialDetail: (clientCode) => {
