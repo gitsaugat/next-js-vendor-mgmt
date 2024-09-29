@@ -180,7 +180,6 @@ const Page = () => {
           }
         });
         setBankTransaction(bookedTransactions);
-
         setInvoiceDetails(paidInvoices);
       } else {
         let unbookedBankTransactions = bankTransaction.map((trans) => {
@@ -200,13 +199,15 @@ const Page = () => {
         setBankTransaction(unbookedBankTransactions);
         setInvoiceDetails(pendingInvoices);
       }
-    } else {
-      if (globalData) {
-        setBankTransaction(globalData.bankTransaction);
-        setInvoiceDetails(globalData.invoiceDetails);
-      }
     }
   }, [type]);
+
+  const resetGlobalData = () => {
+    if (globalData) {
+      setBankTransaction(globalData.bankTransaction);
+      setInvoiceDetails(globalData.invoiceDetails);
+    }
+  };
 
   return (
     <>
@@ -342,10 +343,12 @@ const Page = () => {
                     type="checkbox"
                     checked={type == "unbooked"}
                     onClick={() => {
-                      if (type != "unbooked") {
-                        setType("unbooked");
-                      } else {
+                      if (type == "unbooked") {
+                        resetGlobalData();
                         setType(undefined);
+                      } else {
+                        resetGlobalData();
+                        setType("unbooked");
                       }
                     }}
                   />
@@ -356,10 +359,12 @@ const Page = () => {
                     type="checkbox"
                     checked={type == "booked"}
                     onClick={() => {
-                      if (type != "booked") {
-                        setType("booked");
-                      } else {
+                      if (type == "booked") {
+                        resetGlobalData();
                         setType(undefined);
+                      } else {
+                        resetGlobalData();
+                        setType("booked");
                       }
                     }}
                   />

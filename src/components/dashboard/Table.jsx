@@ -52,7 +52,10 @@ export default function SortedTable({
   };
 
   useEffect(() => {
-    updateTableData(data, sortConfig);
+    updateTableData(
+      data.filter((d) => d != "none"),
+      sortConfig
+    );
   }, [data, keys, sortConfig]);
 
   return (

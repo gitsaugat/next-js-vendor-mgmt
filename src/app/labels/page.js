@@ -59,7 +59,7 @@ const page = () => {
         </button>
       </div>
       {labelsByGroup && (
-        <CardContainer>
+        <>
           <Modal open={open} setOpen={setOpen}>
             <Grid className={"flex flex-row items-center justify-around"}>
               <div className="h-full">
@@ -152,7 +152,7 @@ const page = () => {
               </Grid>
             </>
           ))}
-        </CardContainer>
+        </>
       )}
     </Dashboard>
   );
