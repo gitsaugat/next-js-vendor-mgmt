@@ -13,6 +13,8 @@ import SubmitButton from "@/components/forms/SubmitButton";
 import SelectField from "@/components/forms/selectField";
 import { SketchPicker } from "react-color";
 import { HexColorPicker } from "react-colorful";
+import Label from "@/components/dashboard/Label";
+import CardContainer from "@/components/dashboard/CardContainer";
 
 const page = () => {
   const [labelsByGroup, setLabelsByGroup] = useState();
@@ -57,7 +59,7 @@ const page = () => {
         </button>
       </div>
       {labelsByGroup && (
-        <Card extraClasses={"p-4 min-h-full"}>
+        <CardContainer>
           <Modal open={open} setOpen={setOpen}>
             <Grid className={"flex flex-row items-center justify-around"}>
               <div className="h-full">
@@ -124,38 +126,29 @@ const page = () => {
 
               <Grid
                 className={
-                  " lg:grid lg:grid-cols-4 lg:gap-3 m-4 align-middle sm:grid sm:grid-rows-1 sm:gap-3 xs:grid xs:grid-rows-1 xs:gap-3  md:grid md:grid-cols-2 md:gap-3"
+                  "mt-3 grid grid-cols-1 gap-5 sm:grid-cols-2 sm:gap-6 lg:grid-cols-4"
                 }
               >
                 {labels?.map((label) => (
-                  <Card
-                    normal={true}
-                    key={label}
-                    data={{
-                      type: label_type,
-                      oldName: label.label_name,
-                      color: label.label_color,
-                      description: label.label_description,
-                    }}
-                  >
-                    <div className="flex justify-between items-center">
-                      <div
-                        style={{
-                          background: label.label_color,
-                          opacity: 0.5,
-                        }}
-                        className="h-full w-20 rounded-sm p-9"
-                      ></div>
-                      <p className=" text-lg font-medium float-right mr-6 ">
-                        {label.label_name}
-                      </p>
-                    </div>
-                  </Card>
+                  <Label
+                    // normal={true}
+                    // key={label}
+                    // data={{
+                    //   type: label_type,
+                    //   oldName: label.label_name,
+                    //   color: label.label_color,
+                    //   description: label.label_description,
+                    // }}
+                    key={label.label_name}
+                    bgColor={label.label_color}
+                    name={label.label_name}
+                    description={label.label_description}
+                  />
                 ))}
               </Grid>
             </>
           ))}
-        </Card>
+        </CardContainer>
       )}
     </Dashboard>
   );
