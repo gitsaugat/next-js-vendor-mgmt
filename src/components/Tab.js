@@ -10,13 +10,12 @@ export default function NavTabs({ tabs, children }) {
   useEffect(() => {
     setCardTabs(tabs);
     if (cardTabs) {
-      setActiveTab(cardTabs.find((tab) => tab.current) || tabs[0]);
+      setActiveTab(cardTabs[0]);
     }
   }, []);
 
   return (
-    cardTabs &&
-    activeTab && (
+    cardTabs && (
       <div>
         <div className="hidden sm:block">
           <div className="border-b border-gray-200">
@@ -28,9 +27,9 @@ export default function NavTabs({ tabs, children }) {
                     setActiveTab(tab);
                     tab.func(tab.value);
                   }}
-                  aria-current={activeTab.name == tab.name}
+                  aria-current={activeTab?.name == tab.name}
                   className={classNames(
-                    activeTab.name == tab.name
+                    activeTab?.name == tab.name
                       ? "border-indigo-500 text-indigo-600 cursor-pointer"
                       : "border-transparent text-gray-500 hover:border-gray-300 hover:text-gray-700 cursor-pointer",
                     "whitespace-nowrap border-b-2 px-1 py-4 text-sm font-medium cursor-pointer"

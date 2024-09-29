@@ -31,6 +31,15 @@ const Page = () => {
   const [allProducts, setAllProducts] = useState();
   const [businessDrawyer, setBusinessDrwayer] = useState(false);
   const [financialDrawyer, setFinancialDrwayer] = useState(false);
+  const weekDays = [
+    "Sunday",
+    "Monday",
+    "Tuesday",
+    "Wednesday",
+    "Thursday",
+    "Friday",
+    "Saturday",
+  ];
   const fetchFinancialDetail = async () => {
     const response = await handleRequest(
       "GET",
@@ -87,14 +96,22 @@ const Page = () => {
 
   return (
     <Dashboard>
-      <>
-        <div className={"flex gap-3 flex-row"}>
-          <label className="font-semibold text-gray-500"> Status</label>
-          <div className="h-6 w-6 p-2 rounded-full bg-green-300 ring-2 ring-white"></div>
-          <label className="font-semibold text-gray-500"> Bankruptcy</label>
-          <div className="h-6 w-6 p-2 rounded-full bg-gray-300 ring-2 ring-white"></div>
-        </div>
-      </>
+      {clientDetail && (
+        <>
+          <div className={"flex gap-3 flex-row"}>
+            <label className="font-semibold text-gray-500"> Status</label>
+            <div
+              className={`h-6 w-6 p-2 rounded-full ${""} ring-2 ring-white`}
+            ></div>
+            <label className="font-semibold text-gray-500"> Bankruptcy</label>
+            <div
+              className={`h-6 w-6 p-2 rounded-full ${
+                clientDetail.EO_Data.is_bankrupt ? "bg-red-300" : "bg-green-500"
+              } ring-2 ring-white`}
+            ></div>
+          </div>
+        </>
+      )}
       <br />
       {financialDetail && (
         <>
@@ -181,15 +198,7 @@ const Page = () => {
             <Grid className={"grid grid-cols-2 gap-3"}>
               <CardContainer onClick={() => {}} header={"Business Days"}>
                 <Grid className={"grid grid-cols-1 gap-2"}>
-                  {[
-                    "Sunday",
-                    "Monday",
-                    "Tuesday",
-                    "Wednesday",
-                    "Thursday",
-                    "Friday",
-                    "Saturday",
-                  ].map((d) => (
+                  {weekDays.map((d) => (
                     <Info
                       key={d}
                       initials={d}

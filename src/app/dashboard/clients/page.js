@@ -166,6 +166,7 @@ const page = () => {
         )}
       </CardContainer>
       <br />
+
       {top10Clients && (
         <CardContainer header={"Top 10 Clients"}>
           <NavTabs
@@ -173,7 +174,7 @@ const page = () => {
               {
                 name: "Monthly",
                 value: "last_month",
-                current: false,
+                current: true,
                 func: fetchTop10Clients,
               },
               {
