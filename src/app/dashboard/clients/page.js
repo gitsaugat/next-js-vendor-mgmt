@@ -15,6 +15,9 @@ import Info from "@/components/dashboard/tags/Info";
 import { fetchData, handleRequest } from "../../../../utils/requestMaker/req";
 import { API_URLS } from "../../../../utils/apis";
 import CardContainer from "@/components/dashboard/CardContainer";
+import Tabs from "@/components/dashboard/Tabs";
+import NavTabs from "@/components/Tab";
+
 const ReactMap = dynamic(() => import("@/components/dashboard/ReactMap"), {
   ssr: false,
 });
@@ -165,18 +168,41 @@ const page = () => {
       <br />
       {top10Clients && (
         <CardContainer header={"Top 10 Clients"}>
-          <Grid className={"grid grid-cols-5 gap-3"}>
-            {top10Clients.map((client) => (
-              <Info
-                key={client.account_code}
-                initials={""}
-                href={"/dashboard/clients/" + client.account_code}
-                name={client.account_code}
-                bgColor={""}
-                members={`€${client.total_amount}`}
-              />
-            ))}
-          </Grid>
+          <NavTabs
+            tabs={[
+              {
+                name: "Monthly",
+                value: "last_month",
+                current: false,
+                func: fetchTop10Clients,
+              },
+              {
+                name: "3 Months",
+                value: "last_3_months",
+                current: false,
+                func: fetchTop10Clients,
+              },
+              {
+                name: "6 Months",
+                value: "last_6_months",
+                current: false,
+                func: fetchTop10Clients,
+              },
+            ]}
+          >
+            <Grid className={"grid grid-cols-5 gap-3"}>
+              {top10Clients.map((client) => (
+                <Info
+                  key={client.account_code}
+                  initials={""}
+                  href={"/dashboard/clients/" + client.account_code}
+                  name={client.account_code}
+                  bgColor={""}
+                  members={`€${client.total_amount}`}
+                />
+              ))}
+            </Grid>
+          </NavTabs>
         </CardContainer>
       )}
       <SortedTable
