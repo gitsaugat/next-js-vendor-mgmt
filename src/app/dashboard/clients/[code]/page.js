@@ -126,6 +126,7 @@ const Page = () => {
           <br />
           <Header title={"Client Detail"} />
           <br />
+
           <Grid className={"grid grid-cols-2 gap-3"}>
             {clientDetail && (
               <CardContainer
@@ -164,6 +165,28 @@ const Page = () => {
                 />
               </CardContainer>
             )}
+          </Grid>
+          <br />
+          <Grid className={"grid grid-cols-2 gap-3"}>
+            <CardContainer onClick={() => {}} header={"Business Days"}>
+              <StackedList
+                data={[
+                  "Sunday",
+                  "Monday",
+                  "Tuesday",
+                  "Wednesday",
+                  "Thursday",
+                  "Friday",
+                  "Saturday",
+                ].map((d) => ({
+                  title: d,
+                  value: clientDetail.EO_Data.closed_days.includes(d)
+                    ? "CLOSED"
+                    : "OPEN",
+                }))}
+              />
+            </CardContainer>
+            <CardContainer onClick={() => {}} header={"Labels"}></CardContainer>
           </Grid>
           <br />
           <Header title={"Transaction Metrics"} />
