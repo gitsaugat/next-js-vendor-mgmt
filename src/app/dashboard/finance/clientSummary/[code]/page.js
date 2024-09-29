@@ -52,29 +52,29 @@ const Page = () => {
         categories: bankAndInvoiceDetail.yearly_data.map((d) => d.year),
 
         invoiceCount: bankAndInvoiceDetail.yearly_data.map(
-          (d) => d.invoice_count
+          (d) => d.total_invoice_value
         ),
         bankTransactionCount: bankAndInvoiceDetail.yearly_data.map(
-          (d) => d.bank_transaction_count
+          (d) => d.total_bank_transaction_value
         ),
       };
       const monthlyData = {
         categories: bankAndInvoiceDetail.monthly_data.map((d) => d.month),
         invoiceCount: bankAndInvoiceDetail.monthly_data.map(
-          (d) => d.invoice_count
+          (d) => d.total_invoice_value
         ),
         bankTransactionCount: bankAndInvoiceDetail.monthly_data.map(
-          (d) => d.bank_transaction_count
+          (d) => d.total_bank_transaction_value
         ),
       };
       const weeklyData = {
         categories: bankAndInvoiceDetail.weekly_data.map((d) => d.week),
         invoiceCount: bankAndInvoiceDetail.weekly_data.map(
-          (d) => d.invoice_count
+          (d) => d.total_invoice_value
         ),
 
         bankTransactionCount: bankAndInvoiceDetail.weekly_data.map(
-          (d) => d.bank_transaction_count
+          (d) => d.total_bank_transaction_value
         ),
       };
 
@@ -89,11 +89,11 @@ const Page = () => {
             [
               {
                 name: "Invoices",
-                data: yearlyData.invoiceCount,
+                data: yearlyData.invoiceValue,
               },
               {
                 name: "Bank Transactions",
-                data: yearlyData.bankTransactionCount,
+                data: yearlyData.bankTransactionValue,
               },
             ],
             yearlyData.categories
@@ -102,11 +102,11 @@ const Page = () => {
             [
               {
                 name: "Invoices",
-                data: monthlyData.invoiceCount,
+                data: monthlyData.invoiceValue,
               },
               {
                 name: "Bank Transactions",
-                data: monthlyData.bankTransactionCount,
+                data: monthlyData.bankTransactionValue,
               },
             ],
             monthlyData.categories
@@ -115,11 +115,11 @@ const Page = () => {
             [
               {
                 name: "Invoices",
-                data: weeklyData.invoiceCount,
+                data: weeklyData.invoiceValue,
               },
               {
                 name: "Bank Transactions",
-                data: weeklyData.bankTransactionCount,
+                data: weeklyData.bankTransactionValue,
               },
             ],
             weeklyData.categories
