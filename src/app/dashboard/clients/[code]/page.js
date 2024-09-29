@@ -87,9 +87,19 @@ const Page = () => {
 
   return (
     <Dashboard>
+      <>
+        <div className={"flex gap-3 flex-row"}>
+          <label className="font-semibold text-gray-500"> Status</label>
+          <div className="h-6 w-6 p-2 rounded-full bg-green-300 ring-2 ring-white"></div>
+          <label className="font-semibold text-gray-500"> Bankruptcy</label>
+          <div className="h-6 w-6 p-2 rounded-full bg-gray-300 ring-2 ring-white"></div>
+        </div>
+      </>
+      <br />
       {financialDetail && (
         <>
           <Header title={"Financial Metrics"} />
+          <br />
           <Grid className={"grid grid-cols-4 gap-3"}>
             <CountCard
               title="Unique Bank Transaction"
