@@ -122,28 +122,32 @@ const page = () => {
           </Modal>
           {labelsByGroup.map(({ label_type, labels }) => (
             <>
+              <br />
               <Header key={label_type} title={label_type} split={true} />
-
+              <br />
               <Grid
                 className={
                   "mt-3 grid grid-cols-1 gap-5 sm:grid-cols-2 sm:gap-6 lg:grid-cols-4"
                 }
               >
                 {labels?.map((label) => (
-                  <Label
-                    // normal={true}
-                    // key={label}
-                    // data={{
-                    //   type: label_type,
-                    //   oldName: label.label_name,
-                    //   color: label.label_color,
-                    //   description: label.label_description,
-                    // }}
-                    key={label.label_name}
-                    bgColor={label.label_color}
-                    name={label.label_name}
-                    description={label.label_description}
-                  />
+                  <Card
+                    normal={true}
+                    key={label}
+                    data={{
+                      type: label_type,
+                      oldName: label.label_name,
+                      color: label.label_color,
+                      description: label.label_description,
+                    }}
+                  >
+                    <Label
+                      key={label.label_name}
+                      bgColor={label.label_color}
+                      name={label.label_name}
+                      description={label.label_description}
+                    />
+                  </Card>
                 ))}
               </Grid>
             </>
