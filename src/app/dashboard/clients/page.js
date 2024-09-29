@@ -72,7 +72,7 @@ const page = () => {
     <Dashboard>
       <Header title={"Web Shop Summary"} />
       <br />
-      <Grid className={"grid grid-cols-4"}>
+      <Grid className={"grid grid-cols-4 gap-3"}>
         <CountCard
           title={"Total Clients with Internet Orders"}
           value={100}
@@ -91,7 +91,7 @@ const page = () => {
       <br />
       <Header title={"Client Customer Count"} />
       <br />
-      <Grid className={"grid grid-cols-4"}>
+      <Grid className={"grid grid-cols-4 gap-3"}>
         <CountCard
           title={"EO-Total Customers"}
           value={200}
@@ -154,7 +154,7 @@ const page = () => {
                   href={""}
                   name={obj}
                   bgColor={"bg-pink-600"}
-                  members={citiesWithClients[obj]}
+                  members={`${citiesWithClients[obj]}`}
                 />
               ))}
             </Grid>
@@ -173,7 +173,7 @@ const page = () => {
                 href={"/dashboard/clients/" + client.account_code}
                 name={client.account_code}
                 bgColor={""}
-                members={client.total_amount}
+                members={`€${client.total_amount}`}
               />
             ))}
           </Grid>
