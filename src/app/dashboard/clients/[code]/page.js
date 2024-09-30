@@ -37,6 +37,7 @@ const Page = () => {
   const [bankruptcy, setBankruptcy] = useState(false);
   const [closedDays, setClosedDays] = useState(false);
   const [labels, setLabels] = useState(false);
+  const [clientLevelLabels, setClientLevelLabels] = useState();
   const [weekDays, setWeekDays] = useState([
     "Sunday",
     "Monday",
@@ -46,6 +47,20 @@ const Page = () => {
     "Friday",
     "Saturday",
   ]);
+
+  const fetchClientLevelLabels = async () => {
+    const response = await handleRequest(
+      "GET",
+      API_URLS.labels.listAllLabelsByGroup(),
+      null
+    );
+    let clientLevelLabelsResponse = response.filter(
+      (r) => r.label_type == "Client_Level_Label"
+    );
+    if (clientLevelLabelsResponse.length > 0) {
+      setClientLevelLabels(clientLevelLabelsResponse[0]);
+    }
+  };
   const fetchFinancialDetail = async () => {
     const response = await handleRequest(
       "GET",
@@ -98,6 +113,9 @@ const Page = () => {
     if (!clientDetail) {
       fetchClientDetail();
     }
+    if (!clientLevelLabels) {
+      fetchClientLevelLabels();
+    }
   });
 
   function getStatus(closed_days, weekDays) {
@@ -112,7 +130,7 @@ const Page = () => {
 
   return (
     <Dashboard>
-      {clientDetail && (
+      {clientDetail?.EO_Data && (
         <>
           <div className={"flex gap-3 flex-row"}>
             <label
@@ -124,7 +142,7 @@ const Page = () => {
             </label>
             <div
               className={`h-6 w-6 p-2 rounded-full ${
-                getStatus(clientDetail.EO_Data.closed_days, weekDays)
+                getStatus(clientDetail?.EO_Data?.closed_days, weekDays)
                   ? "bg-red-300"
                   : "bg-green-300"
               } ring-2 ring-white`}
@@ -226,7 +244,7 @@ const Page = () => {
       <br />
 
       <Grid className={"grid grid-cols-2 gap-3"}>
-        {clientDetail && (
+        {clientDetail?.EO_Data && (
           <CardContainer
             onClick={() => setBusinessDrwayer(!businessDrawyer)}
             header={"Business"}
@@ -519,74 +537,89 @@ const Page = () => {
           </CardContainer>
         </div>
       </Drawyer>
-      <Drawyer setOpen={setClosedDays} open={closedDays} title={"Bankruptcy"}>
-        <div>
-          <Header title={"Business Days Form"} />
-          <br />
-          <CardContainer header="Add  Closed Days">
-            <SelectField
-              label="Status"
-              name="business_days"
-              value="bankrupt"
-              setState=""
-              onChange=""
-              options={weekDays.map((d) => ({ label: d, value: d }))}
-              required=""
-            />
-            <CheckButton onClickHandler={() => {}} title={"Update"} />
-          </CardContainer>
-          <br />
-          <CardContainer header="Remove Closed Days">
-            <SelectField
-              label="Status"
-              name="business_days"
-              value="bankrupt"
-              setState=""
-              onChange=""
-              options={clientDetail.EO_Data.closed_days.map((d) => ({
-                label: d,
-                value: d,
-              }))}
-              required=""
-            />
-            <CheckButton onClickHandler={() => {}} title={"Update"} />
-          </CardContainer>
-        </div>
-      </Drawyer>
-      <Drawyer setOpen={setLabels} open={labels} title={"Bankruptcy"}>
-        <div>
-          <Header title={"Add Labels"} />
-          <br />
-          <CardContainer header="Add Client Labels">
-            <SelectField
-              label="Labels"
-              name="client_labels"
-              value="bankrupt"
-              setState=""
-              onChange=""
-              options={weekDays.map((d) => ({ label: d, value: d }))}
-              required=""
-            />
-            <CheckButton onClickHandler={() => {}} title={"Update"} />
-          </CardContainer>
-          <br />
-          <CardContainer header="Remove Labels">
-            <SelectField
-              label="Labels"
-              name="client"
-              value="bankrupt"
-              setState=""
-              onChange=""
-              options={clientDetail.EO_Data.closed_days.map((d) => ({
-                label: d,
-                value: d,
-              }))}
-              required=""
-            />
-            <CheckButton onClickHandler={() => {}} title={"Update"} />
-          </CardContainer>
-        </div>
-      </Drawyer>
+      {clientDetail && (
+        <>
+          <Drawyer
+            setOpen={setClosedDays}
+            open={closedDays}
+            title={"Bankruptcy"}
+          >
+            <div>
+              <Header title={"Business Days Form"} />
+              <br />
+              <CardContainer header="Add  Closed Days">
+                <SelectField
+                  label="Status"
+                  name="business_days"
+                  value="bankrupt"
+                  setState=""
+                  onChange=""
+                  options={weekDays.map((d) => ({ label: d, value: d }))}
+                  required=""
+                />
+                <CheckButton onClickHandler={() => {}} title={"Update"} />
+              </CardContainer>
+              <br />
+              <CardContainer header="Remove Closed Days">
+                <SelectField
+                  label="Status"
+                  name="business_days"
+                  value="bankrupt"
+                  setState=""
+                  onChange=""
+                  options={clientDetail.EO_Data.closed_days.map((d) => ({
+                    label: d,
+                    value: d,
+                  }))}
+                  required=""
+                />
+                <CheckButton onClickHandler={() => {}} title={"Update"} />
+              </CardContainer>
+            </div>
+          </Drawyer>
+          <Drawyer setOpen={setLabels} open={labels} title={"Bankruptcy"}>
+            <div>
+              <Header title={"Add Labels"} />
+              <br />
+              {clientLevelLabels && (
+                <CardContainer header="Add Client Labels">
+                  <SelectField
+                    label="Labels"
+                    name="client_labels"
+                    value="bankrupt"
+                    setState=""
+                    onChange=""
+                    options={clientLevelLabels.labels.map((c) => ({
+                      label: c.label_name,
+                      value: c.label_name,
+                    }))}
+                    required=""
+                  />
+                  <CheckButton onClickHandler={() => {}} title={"Update"} />
+                </CardContainer>
+              )}
+              <br />
+              <CardContainer header="Remove Labels">
+                <SelectField
+                  label="Labels"
+                  name="client"
+                  value="bankrupt"
+                  setState=""
+                  onChange=""
+                  options={clientDetail.EO_Data.dynamic_client_level_labels.map(
+                    (d) => ({
+                      label: d.name,
+                      value: d.name,
+                    })
+                  )}
+                  required=""
+                />
+                <CheckButton onClickHandler={() => {}} title={"Update"} />
+              </CardContainer>
+            </div>
+          </Drawyer>
+        </>
+      )}
     </Dashboard>
   );
 };
