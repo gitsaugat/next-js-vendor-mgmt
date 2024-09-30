@@ -105,6 +105,9 @@ const API_URLS = {
     salesOrderDetail: (code) => {
       return BASE_URL + `/sales-order-detail/${code}`;
     },
+    clientSalesAnalysis: (code) => {
+      return BASE_URL + `/sales-order-analysis/${code}`;
+    },
   },
 };
 

@@ -15,6 +15,8 @@ import { BiCalendarWeek } from "react-icons/bi";
 import SortedTable from "@/components/dashboard/Table";
 import Drawyer from "@/components/dashboard/Drawyer";
 import StackedList from "@/components/dashboard/StackedLists";
+import { CheckButton } from "@/components/dashboard/Buttons";
+import { useRouter } from "next/navigation";
 
 const Page = () => {
   const [orderCounts, setOrderCounts] = useState();
@@ -26,6 +28,8 @@ const Page = () => {
 
   const [salesDrawyerOpen, setSalesDrawyerOpen] = useState(false);
   const [salesOrderDetail, setSalesOrderDetail] = useState();
+
+  const router = useRouter();
 
   async function fetchOrderDetail(code) {
     let response = await handleRequest(
@@ -326,32 +330,47 @@ const Page = () => {
 
         <CardContainer>
           {salesOrderDetail && (
-            <StackedList
-              data={[
-                "code",
-                "external_code",
-                "relation_code",
-                "payment_term_code",
-                "delivery_date",
-                "status",
-                "type",
-                "sub_type",
-                "is_concept_order",
-                "reference",
-                "source_identifier",
-                "is_deleted",
-                "delivery_address__addressLine1",
-                "delivery_address__postalCode",
-                "delivery_address__city",
-                "delivery_address__country__isoCode2",
-                "delivery_address__name",
-                "currency_code",
-                "order_total_amount_exl_vat",
-              ].map((detail) => ({
-                title: detail,
-                value: salesOrderDetail[detail],
-              }))}
-            />
+            <>
+              <StackedList
+                data={[
+                  "code",
+                  "external_code",
+                  "relation_code",
+                  "payment_term_code",
+                  "delivery_date",
+                  "status",
+                  "type",
+                  "sub_type",
+                  "is_concept_order",
+                  "reference",
+                  "source_identifier",
+                  "is_deleted",
+                  "delivery_address__addressLine1",
+                  "delivery_address__postalCode",
+                  "delivery_address__city",
+                  "delivery_address__country__isoCode2",
+                  "delivery_address__name",
+                  "currency_code",
+                  "order_total_amount_exl_vat",
+                ].map((detail) => ({
+                  title: detail,
+                  value: salesOrderDetail[detail],
+                }))}
+              />
+
+              <br />
+
+              <div className="float-right">
+                <CheckButton
+                  onClickHandler={() => {
+                    router.push(
+                      `/dashboard/orders/client/${salesOrderDetail.code}`
+                    );
+                  }}
+                  title={"View Client Sales Analysis"}
+                />
+              </div>
+            </>
           )}
         </CardContainer>
       </Drawyer>
