@@ -92,6 +92,14 @@ const API_URLS = {
       return BASE_URL + "/set-bankruptcy/";
     },
   },
+  orderGeneral: {
+    orderCount: () => {
+      return BASE_URL + "/order-counts/";
+    },
+    reTourOrderSalesCount: () => {
+      return BASE_URL + "/retour-sales-order-counts/";
+    },
+  },
 };
 
 export { BASE_URL, API_URLS };
