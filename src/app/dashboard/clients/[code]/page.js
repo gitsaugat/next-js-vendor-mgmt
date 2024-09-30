@@ -31,7 +31,7 @@ const Page = () => {
   const [allProducts, setAllProducts] = useState();
   const [businessDrawyer, setBusinessDrwayer] = useState(false);
   const [financialDrawyer, setFinancialDrwayer] = useState(false);
-  const weekDays = [
+  const [weekDays, setWeekDays] = useState([
     "Sunday",
     "Monday",
     "Tuesday",
@@ -39,7 +39,7 @@ const Page = () => {
     "Thursday",
     "Friday",
     "Saturday",
-  ];
+  ]);
   const fetchFinancialDetail = async () => {
     const response = await handleRequest(
       "GET",
@@ -94,6 +94,16 @@ const Page = () => {
     }
   });
 
+  function getStatus(closed_days, weekDays) {
+    let today = new Date().getDay();
+    [...closed_days].forEach((value, index, array) => {
+      if (weekDays[today] == value) {
+        return true;
+      }
+    });
+    return false;
+  }
+
   return (
     <Dashboard>
       {clientDetail && (
@@ -101,7 +111,11 @@ const Page = () => {
           <div className={"flex gap-3 flex-row"}>
             <label className="font-semibold text-gray-500"> Status</label>
             <div
-              className={`h-6 w-6 p-2 rounded-full ${""} ring-2 ring-white`}
+              className={`h-6 w-6 p-2 rounded-full ${
+                getStatus(clientDetail.EO_Data.closed_days, weekDays)
+                  ? "bg-red-300"
+                  : "bg-green-500"
+              } ring-2 ring-white`}
             ></div>
             <label className="font-semibold text-gray-500"> Bankruptcy</label>
             <div
