@@ -172,17 +172,11 @@ const Page = () => {
       )}
       {chartData && (
         <div className="mt-4 lg:grid lg:grid-cols-2 lg:gap-3 sm:grid sm:grid-rows-1">
-          <CardContainer>
-            <BarChart
-              title={"Overdue Invoices Buckets"}
-              chart_data={chartData?.bar}
-            />
+          <CardContainer header={"Overdue Invoices Buckets"}>
+            <BarChart chart_data={chartData?.bar} />
           </CardContainer>
-          <CardContainer>
-            <LineChart
-              title={"Payment Tracking Buckets"}
-              chart_data={paymentTrackingChart}
-            />
+          <CardContainer header={"Payment Tracking Buckets"}>
+            <LineChart chart_data={paymentTrackingChart} />
           </CardContainer>
         </div>
       )}

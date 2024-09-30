@@ -289,13 +289,10 @@ const Page = () => {
           {barChartData && (
             <div className="mt-3">
               <div className="lg:grid lg:grid-cols-2 lg:gap-4 md:grid md:grid-cols-1 md:gap-4 sm:grid sm:grid-cols-1 sm:gap-4">
-                <CardContainer>
-                  <BarChart
-                    title="Overdue Bucket Data"
-                    chart_data={barChartData.bar}
-                  />
+                <CardContainer header="Overdue Bucket Data">
+                  <BarChart chart_data={barChartData.bar} />
                 </CardContainer>
-                <CardContainer>
+                <CardContainer header={"Transactions & Invoices"}>
                   <Tabs
                     tabs={[
                       {

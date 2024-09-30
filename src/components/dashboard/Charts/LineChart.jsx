@@ -14,7 +14,7 @@ const LineChart = ({ chart_data, title }) => {
 
   return (
     chart && (
-      <div className="rounded overflow-hidden bg-white mt-4 p-5 h-full w-full">
+      <div className="rounded overflow-hidden bg-white px-5 py-5 h-full w-full">
         <div className="">
           <div className="p-3">
             <p className="text-lg text-center">{title}</p>

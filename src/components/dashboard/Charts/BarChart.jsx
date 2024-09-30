@@ -13,7 +13,7 @@ const BarChart = ({ chart_data, title }) => {
 
   return (
     chart && (
-      <div className="rounded overflow-hidden  bg-white p-5 h-full w-full">
+      <div className="rounded overflow-hidden  bg-white  h-full w-full">
         <div className="">
           <div className="p-3">
             <p className="text-lg text-center">{title}</p>

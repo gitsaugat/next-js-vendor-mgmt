@@ -12,7 +12,7 @@ const PieChart = ({ chart_data, title }) => {
 
   return (
     chart && (
-      <div className="rounded overflow-hidden shadow-lg bg-white flex justify-center mt-4 ">
+      <div className="rounded overflow-hidden justify-center mt-4 ">
         <div className="">
           <div className="p-3">
             <p className="text-lg text-center">{title}</p>

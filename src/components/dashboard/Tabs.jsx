@@ -47,10 +47,7 @@ export default function Tabs({ tabs }) {
           </nav>
         </div>
         <div className="">
-          <LineChart
-            title={"Transactions & Invoices"}
-            chart_data={activeTab.props}
-          />
+          <LineChart chart_data={activeTab.props} />
         </div>
       </div>
     )
