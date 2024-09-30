@@ -67,6 +67,28 @@ const page = () => {
     <Dashboard>
       {salesDetail && (
         <>
+          <Header title={"Client Info"} />
+          <br />
+          <Grid className={"grid grid-cols-1"}>
+            <div className="rounded-xl bg-white p-4 shadow-lg w-fit">
+              <div>
+                <label className="text-gray-500 font-bold">
+                  Client Code : {salesDetail.client_code}
+                </label>
+              </div>
+              <div>
+                <label className="text-gray-500 font-bold">
+                  Client Name : {salesDetail.client_name}
+                </label>
+              </div>
+              <div>
+                <label className="text-gray-500 font-bold">
+                  Latest Order Date : {salesDetail.latest_order_date}
+                </label>
+              </div>
+            </div>
+          </Grid>
+          <br />
           <Header title={"Order Metrics"} />
           <br />
           <Grid
