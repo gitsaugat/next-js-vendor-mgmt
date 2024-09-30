@@ -123,87 +123,81 @@ const page = () => {
       <br />
       <Header title={"Client Metrics"} />
       <br />
-      <CardContainer header={"Type charts"}>
+      {citiesWithClients && (
         <Grid className={"grid grid-cols-2 gap-3 mt-2"}>
-          <PieChart
-            title={"Client Types"}
-            chart_data={createDonutChartData(
-              [10, 2, 3, 20, 58, 60, 7, 8],
-              [
-                "SUSHI",
-                "CAR WASH",
-                "INDIAN",
-                "THAI",
-                "AMERICAN",
-                "EURO",
-                "G",
-                "H",
-              ]
-            )}
-          />
+          <CardContainer header={"Type charts"}>
+            <PieChart
+              title={"Client Types"}
+              chart_data={createDonutChartData(
+                [10, 2, 3, 20, 58, 60, 7, 8],
+                [
+                  "SUSHI",
+                  "CAR WASH",
+                  "INDIAN",
+                  "THAI",
+                  "AMERICAN",
+                  "EURO",
+                  "G",
+                  "H",
+                ]
+              )}
+            />
+          </CardContainer>
+          <CardContainer header={"Client Geo Analytics"}>
+            <PieChart
+              chart_data={createDonutChartData(
+                [...Object.keys(citiesWithClients)].map(
+                  (obj) => citiesWithClients[obj]
+                ),
+                [...Object.keys(citiesWithClients)].map((obj) => obj)
+              )}
+              title={"Cities"}
+            />
+          </CardContainer>
         </Grid>
-      </CardContainer>
-      <br />
-      <CardContainer header={"Client Geo Analytics"}>
-        {citiesWithClients && (
-          <Grid className={"grid grid-cols-2 gap-2 "}>
-            <Grid
-              className={"grid grid-cols-1  max-h-96 gap-2 overflow-scroll"}
-            >
-              <PieChart
-                chart_data={createDonutChartData(
-                  [...Object.keys(citiesWithClients)].map(
-                    (obj) => citiesWithClients[obj]
-                  ),
-                  [...Object.keys(citiesWithClients)].map((obj) => obj)
-                )}
-                title={"Cities"}
-              />
-            </Grid>
-            <ReactMap data={clientGeoData} />
-          </Grid>
-        )}
-      </CardContainer>
-      <br />
+      )}
 
       {top10Clients && (
-        <CardContainer header={"Top 10 Clients"}>
-          <NavTabs
-            tabs={[
-              {
-                name: "Monthly",
-                value: "last_month",
-                current: true,
-                func: fetchTop10Clients,
-              },
-              {
-                name: "3 Months",
-                value: "last_3_months",
-                current: false,
-                func: fetchTop10Clients,
-              },
-              {
-                name: "6 Months",
-                value: "last_6_months",
-                current: false,
-                func: fetchTop10Clients,
-              },
-            ]}
-          >
-            <Grid className={"grid grid-cols-5 gap-3"}>
-              {top10Clients.map((client) => (
-                <Info
-                  key={client.account_code}
-                  initials={""}
-                  href={"/dashboard/clients/" + client.account_code}
-                  name={client.account_code}
-                  bgColor={""}
-                  members={`€${client.total_amount}`}
-                />
-              ))}
-            </Grid>
-          </NavTabs>
-        </CardContainer>
+        <Grid className={"grid grid-cols-2 gap-3 mt-4"}>
+          <CardContainer header={"Top 10 Clients"}>
+            <NavTabs
+              tabs={[
+                {
+                  name: "Monthly",
+                  value: "last_month",
+                  current: true,
+                  func: fetchTop10Clients,
+                },
+                {
+                  name: "3 Months",
+                  value: "last_3_months",
+                  current: false,
+                  func: fetchTop10Clients,
+                },
+                {
+                  name: "6 Months",
+                  value: "last_6_months",
+                  current: false,
+                  func: fetchTop10Clients,
+                },
+              ]}
+            >
+              <Grid className={"grid grid-cols-5 gap-3"}>
+                {top10Clients.map((client) => (
+                  <Info
+                    key={client.account_code}
+                    initials={""}
+                    href={"/dashboard/clients/" + client.account_code}
+                    name={client.account_code}
+                    bgColor={""}
+                    members={`€${client.total_amount}`}
+                  />
+                ))}
+              </Grid>
+            </NavTabs>
+          </CardContainer>
+          <ReactMap data={clientGeoData} />
+        </Grid>
       )}
       <SortedTable
         title={"EO Client Data"}
