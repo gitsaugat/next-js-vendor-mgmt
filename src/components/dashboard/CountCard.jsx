@@ -19,7 +19,7 @@ const CountCard = ({
           }
         }}
         key={Math.random()}
-        className="flex items-center justify-between bg-red shadow-lg rounded-lg p-4 max-w-sm"
+        className="flex items-center justify-between bg-red shadow-lg rounded-lg p-4 max-w-sm cursor-pointer"
       >
         <div className={`${color} text-2xl text-white-300  p-3 rounded-full`}>
           <Icon />

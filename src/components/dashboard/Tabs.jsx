@@ -23,7 +23,7 @@ export default function Tabs({ tabs }) {
   return (
     tabsData.length > 0 && (
       <div className="min-h-full rounded-lg ">
-        <div className="sm:block m-2">
+        <div className="sm:block ">
           <nav aria-label="Tabs" className="flex space-x-4 mt-2">
             {tabsData.map((tab) => (
               <a

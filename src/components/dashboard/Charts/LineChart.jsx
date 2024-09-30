@@ -16,14 +16,12 @@ const LineChart = ({ chart_data, title }) => {
     chart && (
       <div className="rounded overflow-hidden bg-white px-5 py-5 h-full w-full">
         <div className="">
-          <div className="p-3">
-            <p className="text-lg text-center">{title}</p>
-          </div>
           {typeof window !== "undefined" && chart && (
             <Chart
               options={chart?.options}
               series={chart?.series}
               type="area"
+              height={"170%"}
             />
           )}
         </div>

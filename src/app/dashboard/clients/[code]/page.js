@@ -149,128 +149,127 @@ const Page = () => {
               onClickRedirect=""
             />
           </Grid>
-
-          <br />
-          <Header title={"Client Detail"} />
-          <br />
-
-          <Grid className={"grid grid-cols-2 gap-3"}>
-            {clientDetail && (
-              <CardContainer
-                onClick={() => setBusinessDrwayer(!businessDrawyer)}
-                header={"Business"}
-              >
-                <StackedList
-                  data={[
-                    "account_name",
-                    "customer_code",
-                    "city",
-                    "country",
-                  ].map((detail) => ({
-                    title: detail,
-                    value: clientDetail.EO_Data[detail],
-                  }))}
-                />
-              </CardContainer>
-            )}
-
-            {financialDetail && (
-              <CardContainer
-                onClick={() => setFinancialDrwayer(!financialDrawyer)}
-                header={"Financial"}
-              >
-                <StackedList
-                  data={[
-                    "account_code",
-                    "total_invoice_value",
-                    "total_bank_transactions_value",
-                    "latest_amount",
-                  ].map((detail) => ({
-                    title: detail,
-                    value: financialDetail[detail],
-                  }))}
-                />
-              </CardContainer>
-            )}
-          </Grid>
-          <br />
-          {clientDetail && (
-            <Grid className={"grid grid-cols-2 gap-3"}>
-              <CardContainer onClick={() => {}} header={"Business Days"}>
-                <Grid className={"grid grid-cols-1 gap-2"}>
-                  {weekDays.map((d) => (
-                    <Info
-                      key={d}
-                      initials={d}
-                      href=""
-                      name={d}
-                      bgColor={
-                        clientDetail.EO_Data.closed_days.includes(d)
-                          ? "bg-red-200"
-                          : "bg-green-200"
-                      }
-                      members={
-                        clientDetail.EO_Data.closed_days.includes(d)
-                          ? "closed"
-                          : "open"
-                      }
-                    />
-                  ))}
-                </Grid>
-              </CardContainer>
-              <CardContainer onClick={() => {}} header={"Labels"}>
-                <Grid className={"grid grid-cols-1 gap-2"}>
-                  {clientDetail.EO_Data.dynamic_client_level_labels.map((d) => (
-                    <Info
-                      key={d}
-                      initials={d}
-                      href=""
-                      name={d}
-                      bgColor={""}
-                      members={""}
-                    />
-                  ))}
-                </Grid>
-              </CardContainer>
-            </Grid>
-          )}
           <br />
           <Header title={"Transaction Metrics"} />
           <br />
           <Grid className={"grid grid-cols-2 gap-3"}>
-            <LineChart
-              title={"Yearly Bank Transaction Data"}
-              chart_data={createBarChartData(
-                [
-                  {
-                    name: "Transaction Count",
-                    data: financialDetail.yearly_bank_transactions_data?.map(
-                      (d) => d.count
-                    ),
-                  },
-                ],
-                financialDetail.yearly_bank_transactions_data?.map(
-                  (d) => d.year
-                )
-              )}
-            />
-            <BarChart
-              title={"Yearly Invoice Data"}
-              chart_data={createBarChartData(
-                [
-                  {
-                    name: "Invoices",
-                    data: financialDetail.yearly_invoice_data?.map(
-                      (d) => d.count
-                    ),
-                  },
-                ],
-                financialDetail.yearly_invoice_data?.map((d) => d.year)
-              )}
-            />
+            <CardContainer header={"Yearly Bank Transaction Data"}>
+              <LineChart
+                chart_data={createBarChartData(
+                  [
+                    {
+                      name: "Transaction Count",
+                      data: financialDetail.yearly_bank_transactions_data?.map(
+                        (d) => d.count
+                      ),
+                    },
+                  ],
+                  financialDetail.yearly_bank_transactions_data?.map(
+                    (d) => d.year
+                  )
+                )}
+              />
+            </CardContainer>
+            <CardContainer header={"Yearly Invoice Data"}>
+              <BarChart
+                chart_data={createBarChartData(
+                  [
+                    {
+                      name: "Invoices",
+                      data: financialDetail.yearly_invoice_data?.map(
+                        (d) => d.count
+                      ),
+                    },
+                  ],
+                  financialDetail.yearly_invoice_data?.map((d) => d.year)
+                )}
+              />
+            </CardContainer>
           </Grid>
         </>
       )}
+      <br />
+      <Header title={"Client Detail"} />
+      <br />
+
+      <Grid className={"grid grid-cols-2 gap-3"}>
+        {clientDetail && (
+          <CardContainer
+            onClick={() => setBusinessDrwayer(!businessDrawyer)}
+            header={"Business"}
+          >
+            <StackedList
+              data={["account_name", "customer_code", "city", "country"].map(
+                (detail) => ({
+                  title: detail,
+                  value: clientDetail.EO_Data[detail],
+                })
+              )}
+            />
+          </CardContainer>
+        )}
+
+        {financialDetail && (
+          <CardContainer
+            onClick={() => setFinancialDrwayer(!financialDrawyer)}
+            header={"Financial"}
+          >
+            <StackedList
+              data={[
+                "account_code",
+                "total_invoice_value",
+                "total_bank_transactions_value",
+                "latest_amount",
+              ].map((detail) => ({
+                title: detail,
+                value: financialDetail[detail],
+              }))}
+            />
+          </CardContainer>
+        )}
+      </Grid>
+      <br />
+      {clientDetail && (
+        <Grid className={"grid grid-cols-2 gap-3"}>
+          <CardContainer onClick={() => {}} header={"Business Days"}>
+            <Grid className={"grid grid-cols-5 gap-2"}>
+              {weekDays.map((d) => (
+                <Info
+                  key={d}
+                  initials={d}
+                  href=""
+                  name={d}
+                  bgColor={
+                    clientDetail.EO_Data.closed_days.includes(d)
+                      ? "bg-red-200"
+                      : "bg-green-200"
+                  }
+                  members={
+                    clientDetail.EO_Data.closed_days.includes(d)
+                      ? "closed"
+                      : "open"
+                  }
+                />
+              ))}
+            </Grid>
+          </CardContainer>
+          <CardContainer onClick={() => {}} header={"Labels"}>
+            <Grid className={"grid grid-cols-3 gap-2"}>
+              {clientDetail.EO_Data.dynamic_client_level_labels.map((d) => (
+                <Info
+                  key={d}
+                  initials={d}
+                  href=""
+                  name={d}
+                  bgColor={""}
+                  members={""}
+                />
+              ))}
+            </Grid>
+          </CardContainer>
+        </Grid>
+      )}
+
       <br />
       <Header title={"Products"} />
       {top10Products && (
