@@ -216,49 +216,36 @@ const Page = () => {
           <p className="text-gray-500 text-xl font-bold m-2">Invoices</p>
           <div className="lg:grid lg:grid-cols-4 lg:gap-4 md:grid md:grid-cols-2 md:gap-4 sm:grid sm:grid-cols-2 sm:gap-4">
             <CountCard
-              title={"Unique Invoice Count"}
+              title={"Total Invoices"}
               value={
                 financialTransaction.financial_transactions
                   .unique_invoices_count
               }
+              primary={
+                financialTransaction.financial_transactions.total_invoice_value
+              }
               Icon={BiNote}
               color={"bg-green-400"}
             />
 
             <CountCard
-              title={"Total Invoice Value"}
-              value={
-                financialTransaction.financial_transactions.total_invoice_value
-              }
-              Icon={BiMoney}
-              color={"bg-green-400"}
-            />
-            <CountCard
-              title={"Outstanding Invoice Count"}
+              title={"Outstanding Invoices"}
               value={
                 financialTransaction.outstanding_and_due
                   .outstanding_invoice_count
               }
+              primary={
+                financialTransaction.outstanding_and_due.total_outstanding
+              }
               Icon={BiNote}
-              color={"bg-red-400"}
-            />
-            <CountCard
-              title={"Total Outstanding Value"}
-              value={financialTransaction.outstanding_and_due.total_outstanding}
-              Icon={BiEuro}
               color={"bg-red-400"}
             />
 
             <CountCard
-              title={"Overdue Count"}
+              title={"Overdue"}
               value={financialTransaction.outstanding_and_due.overdue_count}
               Icon={FaCcMastercard}
-              color={"bg-red-400"}
-            />
-            <CountCard
-              title={"Overdue Amount"}
-              value={financialTransaction.outstanding_and_due.overdue_amount}
-              Icon={BiMoney}
+              primary={financialTransaction.outstanding_and_due.overdue_amount}
               color={"bg-red-400"}
             />
           </div>
