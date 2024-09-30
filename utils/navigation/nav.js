@@ -24,17 +24,24 @@ export const navigation = [
     current: false,
   },
   {
-    name: "Products",
-    href: "/dashboard/product",
-    icon: FolderIcon,
-    current: false,
-  },
-  {
     name: "Finance",
     href: "/dashboard/finance",
     icon: CurrencyDollarIcon,
     current: false,
   },
+  {
+    name: "Orders",
+    href: "/dashboard/orders",
+    icon: CalendarIcon,
+    current: false,
+  },
+  {
+    name: "Products",
+    href: "/dashboard/products",
+    icon: FolderIcon,
+    current: false,
+  },
+
   {
     name: "Labels",
     href: "/labels",
