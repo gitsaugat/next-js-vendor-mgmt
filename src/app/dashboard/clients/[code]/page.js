@@ -114,7 +114,7 @@ const Page = () => {
               className={`h-6 w-6 p-2 rounded-full ${
                 getStatus(clientDetail.EO_Data.closed_days, weekDays)
                   ? "bg-red-300"
-                  : "bg-green-500"
+                  : "bg-green-300"
               } ring-2 ring-white`}
             ></div>
             <label className="font-semibold text-gray-500"> Bankruptcy</label>
@@ -255,8 +255,8 @@ const Page = () => {
                   name={d}
                   bgColor={
                     clientDetail.EO_Data.closed_days.includes(d)
-                      ? "bg-red-200"
-                      : "bg-green-200"
+                      ? "#db5a74"
+                      : "#abf5cf"
                   }
                   members={
                     clientDetail.EO_Data.closed_days.includes(d)
@@ -271,11 +271,11 @@ const Page = () => {
             <Grid className={"grid grid-cols-3 gap-2"}>
               {clientDetail.EO_Data.dynamic_client_level_labels.map((d) => (
                 <Info
-                  key={d}
-                  initials={d}
+                  key={d.name}
+                  initials={d.name}
                   href=""
-                  name={d}
-                  bgColor={""}
+                  name={d.name}
+                  bgColor={d.color}
                   members={""}
                 />
               ))}
