@@ -99,6 +99,12 @@ const API_URLS = {
     reTourOrderSalesCount: () => {
       return BASE_URL + "/retour-sales-order-counts/";
     },
+    salesOrderDetailTable: () => {
+      return BASE_URL + "/sales-order-details-Table/";
+    },
+    salesOrderDetail: (code) => {
+      return BASE_URL + `/sales-order-detail/${code}`;
+    },
   },
 };
 

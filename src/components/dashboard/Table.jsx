@@ -13,6 +13,7 @@ export default function SortedTable({
   detailKey,
   detailUrl,
   showPagination = false,
+  onClickFunc = (key) => {},
 }) {
   const router = useRouter();
   const [tableData, setTableData] = useState([]);
@@ -114,9 +115,12 @@ export default function SortedTable({
                     {tableData?.map((row) => (
                       <tr
                         key={row[detailKey]}
-                        onClick={() =>
-                          router.push(`${detailUrl}/${row[detailKey]}`)
-                        }
+                        onClick={() => {
+                          if (detailUrl) {
+                            router.push(`${detailUrl}/${row[detailKey]}`);
+                          }
+                          onClickFunc(detailKey);
+                        }}
                         className="even:bg-gray-50"
                       >
                         {showFields.map((field) => (
