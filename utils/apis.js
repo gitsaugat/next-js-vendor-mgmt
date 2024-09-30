@@ -79,6 +79,18 @@ const API_URLS = {
     allProducts: (clientCode) => {
       return BASE_URL + `/order-pattern/top-all-ordered-products/${clientCode}`;
     },
+    setClosedDays: () => {
+      return BASE_URL + "/set-closed-days/";
+    },
+    setClientLabels: () => {
+      return BASE_URL + "/set-client-labels/";
+    },
+    removeClientLabels: () => {
+      return BASE_URL + "/remove-client-labels/";
+    },
+    setBankruptcyStatus: () => {
+      return BASE_URL + "/set-bankruptcy/";
+    },
   },
 };
 
