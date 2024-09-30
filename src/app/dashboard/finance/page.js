@@ -15,6 +15,8 @@ import {
 } from "../../../../utils/chart";
 import { API_URLS } from "../../../../utils/apis";
 import AreaChart from "@/components/dashboard/Charts/AreaChart";
+import LineChart from "@/components/dashboard/Charts/LineChart";
+import CardContainer from "@/components/dashboard/CardContainer";
 
 const headers = [
   "Account Code",
@@ -169,15 +171,19 @@ const Page = () => {
         </>
       )}
       {chartData && (
-        <div className="lg:grid lg:grid-cols-2 lg:gap-3 sm:grid sm:grid-rows-1">
-          <BarChart
-            title={"Overdue Invoices Buckets"}
-            chart_data={chartData?.bar}
-          />
-          <AreaChart
-            title={"Payment Tracking Buckets"}
-            chart_data={paymentTrackingChart}
-          />
+        <div className="mt-4 lg:grid lg:grid-cols-2 lg:gap-3 sm:grid sm:grid-rows-1">
+          <CardContainer>
+            <BarChart
+              title={"Overdue Invoices Buckets"}
+              chart_data={chartData?.bar}
+            />
+          </CardContainer>
+          <CardContainer>
+            <LineChart
+              title={"Payment Tracking Buckets"}
+              chart_data={paymentTrackingChart}
+            />
+          </CardContainer>
         </div>
       )}
       <SortableTable

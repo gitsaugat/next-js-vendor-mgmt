@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 import dynamic from "next/dynamic";
+import CardContainer from "../CardContainer";
 
 const Chart = dynamic(() => import("react-apexcharts"), { ssr: false });
 
@@ -13,7 +14,7 @@ const LineChart = ({ chart_data, title }) => {
 
   return (
     chart && (
-      <div className="rounded overflow-hidden shadow-lg bg-white flex justify-center mt-4 ">
+      <div className="rounded overflow-hidden bg-white mt-4 p-5 h-full w-full">
         <div className="">
           <div className="p-3">
             <p className="text-lg text-center">{title}</p>
@@ -23,7 +24,6 @@ const LineChart = ({ chart_data, title }) => {
               options={chart?.options}
               series={chart?.series}
               type="area"
-              width="500"
             />
           )}
         </div>

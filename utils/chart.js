@@ -1,10 +1,9 @@
 const createBarChartData = (series, categories) => {
-  console.log(series, categories);
   return {
     options: {
       chart: {
-        width: "1000px",
-        id: "basic-bar",
+        width: "100%",
+        id: "li",
       },
       xaxis: {
         categories: categories,

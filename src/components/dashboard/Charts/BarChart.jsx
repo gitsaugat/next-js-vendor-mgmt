@@ -13,18 +13,13 @@ const BarChart = ({ chart_data, title }) => {
 
   return (
     chart && (
-      <div className="rounded overflow-hidden shadow-lg bg-white flex justify-center mt-4 ">
+      <div className="rounded overflow-hidden  bg-white p-5 h-full w-full">
         <div className="">
           <div className="p-3">
             <p className="text-lg text-center">{title}</p>
           </div>
           {typeof window !== "undefined" && chart && (
-            <Chart
-              options={chart?.options}
-              series={chart?.series}
-              type="bar"
-              width="500"
-            />
+            <Chart options={chart?.options} series={chart?.series} type="bar" />
           )}
         </div>
       </div>

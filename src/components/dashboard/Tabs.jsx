@@ -1,5 +1,7 @@
 import { useEffect, useState } from "react";
 import LineChart from "./Charts/LineChart";
+import BarChart from "./Charts/BarChart";
+import CardContainer from "./CardContainer";
 
 function classNames(...classes) {
   return classes.filter(Boolean).join(" ");
@@ -20,9 +22,9 @@ export default function Tabs({ tabs }) {
 
   return (
     tabsData.length > 0 && (
-      <div className="rounded-lg bg-white shadow-lg">
+      <div className="min-h-full rounded-lg ">
         <div className="sm:block m-2">
-          <nav aria-label="Tabs" className="flex space-x-4">
+          <nav aria-label="Tabs" className="flex space-x-4 mt-2">
             {tabsData.map((tab) => (
               <a
                 key={tab.name}
@@ -44,8 +46,11 @@ export default function Tabs({ tabs }) {
             ))}
           </nav>
         </div>
-        <div className="mt-4">
-          <LineChart height="100%" width="100%" chart_data={activeTab.props} />
+        <div className="">
+          <LineChart
+            title={"Transactions & Invoices"}
+            chart_data={activeTab.props}
+          />
         </div>
       </div>
     )

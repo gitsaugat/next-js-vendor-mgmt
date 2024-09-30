@@ -17,6 +17,7 @@ import {
 import LineChart from "@/components/dashboard/Charts/LineChart";
 import { useParams } from "next/navigation";
 import Tabs from "@/components/dashboard/Tabs";
+import CardContainer from "@/components/dashboard/CardContainer";
 
 const Page = () => {
   const [globalData, setGlobalData] = useState();
@@ -51,30 +52,30 @@ const Page = () => {
       const yearlyData = {
         categories: bankAndInvoiceDetail.yearly_data.map((d) => d.year),
 
-        invoiceCount: bankAndInvoiceDetail.yearly_data.map(
-          (d) => d.total_invoice_value
+        invoiceValue: bankAndInvoiceDetail.yearly_data.map(
+          (d) => d.invoice_count
         ),
-        bankTransactionCount: bankAndInvoiceDetail.yearly_data.map(
-          (d) => d.total_bank_transaction_value
+        bankTransactionValue: bankAndInvoiceDetail.yearly_data.map(
+          (d) => d.bank_transaction_count
         ),
       };
       const monthlyData = {
         categories: bankAndInvoiceDetail.monthly_data.map((d) => d.month),
-        invoiceCount: bankAndInvoiceDetail.monthly_data.map(
-          (d) => d.total_invoice_value
+        invoiceValue: bankAndInvoiceDetail.monthly_data.map(
+          (d) => d.invoice_count
         ),
-        bankTransactionCount: bankAndInvoiceDetail.monthly_data.map(
-          (d) => d.total_bank_transaction_value
+        bankTransactionValue: bankAndInvoiceDetail.monthly_data.map(
+          (d) => d.bank_transaction_count
         ),
       };
       const weeklyData = {
         categories: bankAndInvoiceDetail.weekly_data.map((d) => d.week),
-        invoiceCount: bankAndInvoiceDetail.weekly_data.map(
-          (d) => d.total_invoice_value
+        invoiceValue: bankAndInvoiceDetail.weekly_data.map(
+          (d) => d.invoice_count
         ),
 
-        bankTransactionCount: bankAndInvoiceDetail.weekly_data.map(
-          (d) => d.total_bank_transaction_value
+        bankTransactionValue: bankAndInvoiceDetail.weekly_data.map(
+          (d) => d.bank_transaction_count
         ),
       };
 
@@ -83,7 +84,7 @@ const Page = () => {
           [{ data: bucketDetails, name: "Bucket Data" }],
           bucketCategories
         ),
-        donut: createDonutChartData(bucketDetails, "", bucketCategories),
+        donut: createDonutChartData(bucketDetails, bucketCategories),
         growth: {
           yearly: createBarChartData(
             [
@@ -288,35 +289,39 @@ const Page = () => {
           {barChartData && (
             <div className="mt-3">
               <div className="lg:grid lg:grid-cols-2 lg:gap-4 md:grid md:grid-cols-1 md:gap-4 sm:grid sm:grid-cols-1 sm:gap-4">
-                <BarChart
-                  title="Overdue Bucket Data"
-                  chart_data={barChartData.bar}
-                />
-                <Tabs
-                  tabs={[
-                    {
-                      name: "Yearly",
-                      href: "#",
-                      current: false,
-                      component: LineChart,
-                      props: barChartData.growth.yearly,
-                    },
-                    {
-                      name: "Monthly",
-                      href: "#",
-                      current: false,
-                      component: LineChart,
-                      props: barChartData.growth.monthly,
-                    },
-                    {
-                      name: "Weekly",
-                      href: "#",
-                      current: true,
-                      component: LineChart,
-                      props: barChartData.growth.weekly,
-                    },
-                  ]}
-                />
+                <CardContainer>
+                  <BarChart
+                    title="Overdue Bucket Data"
+                    chart_data={barChartData.bar}
+                  />
+                </CardContainer>
+                <CardContainer>
+                  <Tabs
+                    tabs={[
+                      {
+                        name: "Yearly",
+                        href: "#",
+                        current: false,
+                        component: LineChart,
+                        props: barChartData.growth.yearly,
+                      },
+                      {
+                        name: "Monthly",
+                        href: "#",
+                        current: false,
+                        component: LineChart,
+                        props: barChartData.growth.monthly,
+                      },
+                      {
+                        name: "Weekly",
+                        href: "#",
+                        current: false,
+                        component: LineChart,
+                        props: barChartData.growth.weekly,
+                      },
+                    ]}
+                  />
+                </CardContainer>
               </div>
             </div>
           )}
